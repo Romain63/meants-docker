@@ -1,40 +1,51 @@
-<div class="animated fadeIn">
+<md-toolbar>
   <h3 [innerHTML]="'admin.languages.title'|translate"></h3>
-  <form [formGroup]="filterForm" class="form-inline row">
-    <div class="form-group no-padding col-md-12">
-      <a [routerLink]="['new']" *appHasRight="'R_API_LANGUAGE_C'"><i class="fa fa-user-plus"></i>&emsp;{{'admin.languages.new'|translate}}</a>
-    </div>
-    <div class='clearfix col-md-6 col-sm-12'></div>
-    <br />
-    <div class="col-md-12">
-    <table class="table table-striped table-bordered table-sm" *ngIf="data">
-      <thead>
-        <tr>
-          <th (click)="orderListBy('name')"><i class="fa fa-fw fa-sort{{getSortDirection('name') ? '-' + getSortDirection('name') : ''}}"></i><span [innerHTML]="'admin.languages.header.name'|translate"></span></th>
-          <th (click)="orderListBy('culture')"><i class="fa fa-fw fa-sort{{getSortDirection('culture') ? '-' + getSortDirection('culture') : ''}}"></i><span [innerHTML]="'admin.languages.header.culture'|translate"></span></th>
-          <th [innerHTML]="'admin.languages.header.flag'|translate"></th>
-          <th [innerHTML]="'admin.languages.header.actions'|translate"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let language of data">
-          <td>{{language.name}}</td>
-          <td>{{language.culture}}</td>
-          <td>{{language.flag}}</td>
-          <td>
-             <span *appHasRight="'R_API_LANGUAGE_C'"><a [routerLink]="[language.id, 'update']"><i class="fa fa-pencil"></i></a>&emsp;</span>
-             <span *appHasRight="'R_API_LANGUAGE_RESOURCE_R'"><a [routerLink]="[language.id, 'resources']"><i class="fa fa-language"></i></a>&emsp;</span>
-             <span *appHasRight="'R_API_LANGUAGE_D'"><a href="#" (click)="confirmDeleteContent($event, language)"><i class="fa fa-trash-o"></i></a></span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <div class='clearfix'></div>
-    <app-pagination [current]="currentPage" [limit]="limit" [count]="count" (pageChanged)="onPageChanged($event)"></app-pagination>
-    </div>
-    <div class='clearfix'></div>
-    <input type="hidden" formControlName="sort" />
-    <input type="hidden" formControlName="page" />
-    <input type="hidden" formControlName="limit" />
-  </form>
+</md-toolbar>
+<div class="content-wrapper">
+
+    <md-toolbar>
+        <md-input-container floatPlaceholder="never">
+            <input mdInput #filter placeholder="Filter users">
+        </md-input-container>
+        <div fxFlex></div>
+        <button md-raised-button color="primary" [routerLink]="['new']" *appHasRight="'R_API_LANGUAGE_C'">{{'admin.languages.new'|translate}}</button>
+      </md-toolbar>
+
+  <div class='clearfix col-md-6 col-sm-12'></div>
+  <br />
+  <div class="col-md-12">
+    <md-table #table [dataSource]="dataSource" mdSort>
+      <!-- User name Definition -->
+      <ng-container cdkColumnDef="name">
+        <md-header-cell *cdkHeaderCellDef md-sort-header><span [innerHTML]="'admin.languages.header.name'|translate"></span></md-header-cell>
+        <md-cell *cdkCellDef="let row"> {{row.name}} </md-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="culture">
+        <md-header-cell *cdkHeaderCellDef md-sort-header><span [innerHTML]="'admin.languages.header.culture'|translate"></span></md-header-cell>
+        <md-cell *cdkCellDef="let row"> {{row.culture}} </md-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="flag">
+        <md-header-cell *cdkHeaderCellDef md-sort-header><span [innerHTML]="'admin.languages.header.flag'|translate"></span></md-header-cell>
+        <md-cell *cdkCellDef="let row"> {{row.flag}} </md-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="action">
+        <md-header-cell *cdkHeaderCellDef><span [innerHTML]="'admin.languages.header.actions'|translate"></span></md-header-cell>
+        <md-cell *cdkCellDef="let row">
+          <button md-button *appHasRight="'R_API_LANGUAGE_C'" class="cell-action-button" [routerLink]="[row.id, 'update']"><md-icon>mode_edit</md-icon></button>
+          <button md-button *appHasRight="'R_API_LANGUAGE_RESOURCE_R'" class="cell-action-button" [routerLink]="[row.id, 'resources']"><md-icon>language</md-icon></button>
+          <button md-button *appHasRight="'R_API_LANGUAGE_D'" class="cell-action-button" (click)="confirmDeleteContent($event, row)"><md-icon>delete</md-icon></button>
+        </md-cell>
+      </ng-container>
+
+      <!-- Header and Row Declarations -->
+      <md-header-row *cdkHeaderRowDef="['name', 'culture', 'flag', 'action']"></md-header-row>
+      <md-row *cdkRowDef="let row; columns: ['name', 'culture', 'flag', 'action']"></md-row>
+    </md-table>
+
+    <md-paginator #paginator [length]="dataSource.totalLength" [pageIndex]="0" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]">
+    </md-paginator>
+  </div>
 </div>

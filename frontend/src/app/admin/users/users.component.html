@@ -1,53 +1,57 @@
-<div class="animated fadeIn">
+<md-toolbar>
   <h3 [innerHTML]="'admin.users.title'|translate"></h3>
-  <form [formGroup]="filterForm" class="form-inline row">
-        <div class="form-group col-md-6 col-sm-12">
-          <input type="text" class="form-control searching" formControlName="search" placeholder="{{'admin.users.search.placeholder'|translate}}"
-          />
-        </div>
-    <div class='clearfix col-md-6 col-sm-12'></div>
-    <br />
-    <br/>
-    <div class="form-group no-padding col-md-12">
-      <a [routerLink]="['new']" *appHasRight="'R_API_USER_C'"><i class="fa fa-user-plus"></i>&emsp;{{'admin.users.new'|translate}}</a>
-    </div>
-    <div class='clearfix col-md-6 col-sm-12'></div>
-    <br/>
-    <div class="col-md-12">
-      <table class="table table-striped table-bordered table-sm" *ngIf="data">
-        <thead>
-          <tr>
-            <th class="sortable" (click)="orderListBy('email')"><i class="fa fa-fw fa-sort{{getSortDirection('email') ? '-' + getSortDirection('email') : ''}}"></i><span [innerHTML]="'admin.users.header.email'|translate"></span></th>
-            <th [innerHTML]="'admin.users.header.civility'|translate"></th>
-            <th class="sortable" (click)="orderListBy('firstname')"><i class="fa fa-fw fa-sort{{getSortDirection('firstname') ? '-' + getSortDirection('firstname') : ''}}"></i>
-              <span [innerHTML]="'admin.users.header.firstname'|translate"></span>
-            </th>
-            <th class="sortable" (click)="orderListBy('lastname')"><i class="fa fa-fw fa-sort{{getSortDirection('lastname') ? '-' + getSortDirection('lastname') : ''}}"></i>
-              <span [innerHTML]="'admin.users.header.lastname'|translate"></span>
-            </th>
-            <th [innerHTML]="'admin.users.header.actions'|translate"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let user of data">
-            <td>{{user.email}}</td>
-            <td>{{ 'admin.users.civility.' + user.civility | translate }}</td>
-            <td>{{user.firstname}}</td>
-            <td>{{user.lastname}}</td>
-            <td>
-              <span *appHasRight="'R_API_USER_U'"><a [routerLink]="[user.id, 'update']"><i class="fa fa-pencil"></i></a>&emsp;</span>
-              <span *appHasRight="'R_API_LANGUAGE_RESOURCE_R'"><a [routerLink]="[user.id, 'rights']"><i class="fa fa-user-md"></i></a>&emsp;</span>
-              <span *appHasRight="'R_API_USER_D'"><a href="#" (click)="confirmDeleteContent($event, user)"><i class="fa fa-trash-o"></i></a></span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div class='clearfix'></div>
-      <app-pagination [current]="currentPage" [limit]="limit" [count]="count" (pageChanged)="onPageChanged($event)"></app-pagination>
-      <div class='clearfix'></div>
-      <input type="hidden" formControlName="sort" />
-      <input type="hidden" formControlName="page" />
-      <input type="hidden" formControlName="limit" />
-    </div>
-  </form>
+</md-toolbar>
+<div class="content-wrapper">
+  <md-toolbar>
+    <md-input-container floatPlaceholder="never">
+      <input mdInput #filter placeholder="{{'admin.users.search.placeholder'|translate}}">
+    </md-input-container>
+    <div fxFlex></div>
+    <button md-raised-button color="primary" [routerLink]="['new']" *appHasRight="'R_API_USER_C'">{{'admin.users.new'|translate}}</button>
+  </md-toolbar>
+  <div class="form-group no-padding col-md-12">
+  </div>
+  <div class='clearfix col-md-6 col-sm-12'></div>
+  <br />
+  <div class="col-md-12">
+    
+    <md-table #table [dataSource]="dataSource" mdSort>
+      <!-- User name Definition -->
+      <ng-container cdkColumnDef="email">
+        <md-header-cell *cdkHeaderCellDef md-sort-header><span [innerHTML]="'admin.users.header.email'|translate"></span></md-header-cell>
+        <md-cell *cdkCellDef="let row"> {{row.email}} </md-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="civility">
+        <md-header-cell *cdkHeaderCellDef md-sort-header><span [innerHTML]="'admin.users.header.civility'|translate"></span></md-header-cell>
+        <md-cell *cdkCellDef="let row"> {{ 'admin.users.civility.' + row.civility | translate }}</md-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="firstname">
+        <md-header-cell *cdkHeaderCellDef md-sort-header><span [innerHTML]="'admin.users.header.firstname'|translate"></span></md-header-cell>
+        <md-cell *cdkCellDef="let row"> {{row.firstname}} </md-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="lastname">
+        <md-header-cell *cdkHeaderCellDef md-sort-header><span [innerHTML]="'admin.users.header.lastname'|translate"></span></md-header-cell>
+        <md-cell *cdkCellDef="let row"> {{row.lastname}} </md-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="action">
+        <md-header-cell *cdkHeaderCellDef><span [innerHTML]="'admin.languages.header.actions'|translate"></span></md-header-cell>
+        <md-cell *cdkCellDef="let row">
+          <button *appHasRight="'R_API_USER_U'" md-button class="cell-action-button" [routerLink]="[row.id, 'update']"><md-icon>mode_edit</md-icon></button>
+          <button *appHasRight="'R_API_USER_U'" class="cell-action-button" md-button [routerLink]="[row.id, 'rights']"><md-icon>language</md-icon></button>
+          <button *appHasRight="'R_API_USER_D'" md-button class="cell-action-button" (click)="confirmDeleteContent($event, row)"><md-icon>delete</md-icon></button>
+        </md-cell>
+      </ng-container>
+
+      <!-- Header and Row Declarations -->
+      <md-header-row *cdkHeaderRowDef="['email', 'civility', 'firstname', 'lastname', 'action']"></md-header-row>
+      <md-row *cdkRowDef="let row; columns: ['email','civility', 'firstname', 'lastname','action']"></md-row>
+    </md-table>
+
+    <md-paginator #paginator [length]="dataSource.totalLength" [pageIndex]="0" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]">
+    </md-paginator>
+  </div>
 </div>

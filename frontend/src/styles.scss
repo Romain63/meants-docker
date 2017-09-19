@@ -1,1 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/theming';
+@import '~scss/_normalize.scss';
+@import '~scss/_app-root.scss';
+
+
+// Include non-theme styles for core.
+@include mat-core();
+
+// Define a theme.
+$primary: mat-palette($mat-light-blue, A700, A100, A400);
+$accent:  mat-palette($mat-deep-orange, A200, A100, A400);
+
+$theme: mat-light-theme($primary, $accent);
+
+// Include all theme styles for the components.
+@include angular-material-theme($theme);
+
+// Redefine background
+.mat-drawer-container{
+    background-color: #eceff1 !important;
+}
+
+md-toolbar{
+    background-color:#1590bc !important;
+}
+
+md-ink-bar{
+    background-color:white !important;
+}

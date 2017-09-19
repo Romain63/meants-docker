@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminRoutingModule } from './admin-routing.module';
-import { AgmCoreModule } from 'angular2-google-maps/core';
+import { AgmCoreModule } from '@agm/core';
 
 import { SharedModule } from '../shared/shared.module';
 import { AdminComponent } from './admin.component';
-import { GmapsComponent } from './gmaps/gmaps.component';
 import { AdminDashboardGuard } from './admin-dashboard-guard';
+
 @NgModule({
   imports: [
     SharedModule,
@@ -14,8 +14,7 @@ import { AdminDashboardGuard } from './admin-dashboard-guard';
     AdminRoutingModule
   ],
   declarations: [
-    AdminComponent,
-    GmapsComponent
+    AdminComponent
   ],
   providers: [AdminDashboardGuard]
 })

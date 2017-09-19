@@ -1,59 +1,69 @@
-<form [formGroup]="form" novalidate (submit)="save($event)">
+<form [formGroup]="form" class="form-content" novalidate (submit)="save($event)" fxLayout="column" fxLayoutGap="30px">
   <input type="hidden" formControlName="id" />
-  <div class="form-group">
-    <label for="email">{{'admin.users.model.email'|translate}}</label>
-    <input type="text" class="form-control" id="email" formControlName="email"/>
-    <div class="field-error" *ngIf="isSubmitted && !form.controls.email.valid">
-      <div *ngIf="form.controls.email.hasError('required')">{{'admin.users.model.email.required'|translate}}</div>
-      <div *ngIf="form.controls.email.hasError('pattern')">{{'admin.users.model.email.pattern'|translate}}</div>
-    </div>
+
+  <md-input-container fxLayout="row">
+    <input mdInput placeholder="{{'admin.users.model.email'|translate}}" [formControl]="form.controls.email">
+    <md-error *ngIf="form.controls.email.hasError('required')">
+      {{'admin.users.model.email.required'|translate}}
+    </md-error>
+    <md-error *ngIf="form.controls.email.hasError('pattern')">
+      {{'admin.users.model.email.pattern'|translate}}
+    </md-error>
+  </md-input-container>
+  <div fxLayout="row" *ngIf="form.controls.id.value === ''" formGroupName="passwordGroup">
+    <md-input-container fxFlex="45">
+      <input type="password" mdInput placeholder="{{'admin.users.model.password'|translate}}" [formControl]="form.controls.passwordGroup.controls.password">
+      <md-error *ngIf="form.controls.passwordGroup.controls.password.hasError('required')">
+        {{'admin.users.model.password.required'|translate}}
+      </md-error>
+      <md-error *ngIf="form.controls.passwordGroup.controls.password.hasError('minlength')">
+        {{'admin.users.model.password.minLength'|translate}}
+      </md-error>
+    </md-input-container>
+    <md-input-container fxFlex="45" fxFlexOffset="5">
+      <input type="password" mdInput placeholder="{{'admin.users.model.passwordConfirm'|translate}}" [formControl]="form.controls.passwordGroup.controls.passwordConfirm">
+      <md-error *ngIf="form.controls.passwordGroup.controls.passwordConfirm.hasError('required')">
+        {{'admin.users.model.password.required'|translate}}
+      </md-error>
+      <md-error *ngIf="form.controls.passwordGroup.controls.passwordConfirm.hasError('minlength')">
+        {{'admin.users.model.password.minLength'|translate}}
+      </md-error>
+    </md-input-container>
+    <md-error *ngIf="isSubmitted && !form.controls.passwordGroup.valid">
+      {{'admin.users.model.passwordGroup.areEquals'|translate}}
+    </md-error>
   </div>
-  <div class="form-group" formGroupName="passwordGroup" *ngIf="form.controls.id.value === ''">
-    <div class="form-group">
-      <label for="password">{{'admin.users.model.password'|translate}}</label>
-      <input type="password" class="form-control" id="password" formControlName="password" />
-      <div class="field-error" *ngIf="isSubmitted && !form.controls.passwordGroup.controls.password.valid">
-        <div *ngIf="form.controls.passwordGroup.controls.password.hasError('required')">{{'admin.users.model.password.required'|translate}}</div>
-        <div *ngIf="form.controls.passwordGroup.controls.password.hasError('minlength')">{{'admin.users.model.password.minLength'|translate}}</div>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="password">{{'admin.users.model.passwordConfirm'|translate}}</label>
-      <input type="password" class="form-control" id="passwordConfirm" formControlName="passwordConfirm" />
-      <div class="field-error" *ngIf="isSubmitted && !form.controls.passwordGroup.controls.passwordConfirm.valid">
-        <div *ngIf="form.controls.passwordGroup.controls.passwordConfirm.hasError('required')">{{'admin.users.model.passwordConfirm.required'|translate}}</div>
-        <div *ngIf="form.controls.passwordGroup.controls.passwordConfirm.hasError('minlength')">{{'admin.users.model.passwordConfirm.minLength'|translate}}</div>
-      </div>
-    </div>
-    <div class="field-error" *ngIf="isSubmitted && !form.controls.passwordGroup.valid">
-      <div *ngIf="form.controls.passwordGroup.hasError('areEquals')">{{'admin.users.model.passwordGroup.areEquals'|translate}}</div>
-    </div>
+
+  <md-select fxLayout="row" placeholder="{{'admin.users.model.civilite'|translate}}" required="true" [formControl]="form.controls.civility">
+    <md-option *ngFor="let civility of civilities; let i = index" [value]="i">{{civility | translate}}</md-option>
+  </md-select>
+  <div fxLayout="row">
+    <md-input-container fxFlex="45">
+      <input mdInput placeholder="{{'admin.users.model.firstname'|translate}}" [formControl]="form.controls.firstname">
+      <md-error *ngIf="form.controls.firstname.hasError('required')">
+        {{'admin.users.model.firstname.required'|translate}}
+      </md-error>
+    </md-input-container>
+
+    <md-input-container fxFlex="45" fxFlexOffset="5">
+      <input mdInput placeholder="{{'admin.users.model.lastname'|translate}}" [formControl]="form.controls.lastname">
+      <md-error *ngIf="form.controls.lastname.hasError('required')">
+        {{'admin.users.model.lastname.required'|translate}}
+      </md-error>
+    </md-input-container>
   </div>
-  <div class="form-group">
-    <label for="civilite">{{'admin.users.model.civilite'|translate}}</label>
-    <select id="civilite" class="form-control" formControlName="civility">
-      <option *ngFor="let civility of civilities; let i = index" [value]="i">{{civility | translate}}<option>
-    </select>
+  <md-select fxLayout="row" placeholder="{{'admin.users.model.profession'|translate}}" required="true" [formControl]="form.controls.profession">
+    <md-option *ngFor="let profession of professions; let i = index" [value]="i">{{profession | translate}}</md-option>
+    <md-error *ngIf="form.controls.profession.hasError('required')">
+      {{'admin.users.model.profession.required'|translate}}
+    </md-error>
+  </md-select>
+
+  <div fxLayout="row">
+    <md-slide-toggle [formControl]="form.controls.isSystem">{{'admin.users.model.isSystem'|translate}}</md-slide-toggle>
   </div>
-  <div class="form-group">
-    <label for="firstname">{{'admin.users.model.firstname'|translate}}</label>
-    <input type="text" class="form-control" id="firstname" formControlName="firstname" />
-    <div class="field-error" *ngIf="isSubmitted && !form.controls.firstname.valid">
-      <div *ngIf="form.controls.firstname.hasError('required')">{{'admin.users.model.firstname.required'|translate}}</div>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="lastname">{{'admin.users.model.lastname'|translate}}</label>
-    <input type="text" class="form-control" id="lastname" formControlName="lastname" />
-    <div class="field-error" *ngIf="isSubmitted && !form.controls.lastname.valid">
-      <div *ngIf="form.controls.lastname.hasError('required')">{{'admin.users.model.lastname.required'|translate}}</div>
-    </div>
-  </div>
-  <div class="form-group">
-    <input type="checkbox" id="isSystem" formControlName="isSystem" />&emsp;
-    <label for="isSystem">{{'admin.users.model.isSystem'|translate}}</label>
-  </div>
-  <div class="form-group">
-    <button type="submit" class="btn btn-lg btn-primary btn-block btn-save">{{'admin.users.model.' + action |translate}}</button >
+
+  <div fxLayout="row">
+    <button md-button type="submit" fxFlex="20" fxFlexOffset="80">{{'admin.languages.model.' + action |translate}}</button >
   </div>
 </form>

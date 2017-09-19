@@ -1,5 +1,4 @@
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-confirm-modal',
@@ -31,7 +30,7 @@ export class ConfirmModalComponent implements OnInit {
    * @constructor
    * @param {NgbActiveModal} activeModal The current active modal.
    */
-  constructor(private activeModal: NgbActiveModal) {
+  constructor() {
     this.titleCode = 'common.modal.confirm.title';
     this.descriptionCode = 'common.modal.confirm.description';
     this.closeCode = 'common.modal.btn.confirm';
@@ -42,12 +41,10 @@ export class ConfirmModalComponent implements OnInit {
   }
 
   confirm(result: any) {
-    this.activeModal.close(result);
-    this.confirmModal.emit(result);
+
   }
 
   cancel(reason?: any) {
-    this.activeModal.dismiss(reason);
-    this.cancelModal.emit(reason);
+
   }
 }

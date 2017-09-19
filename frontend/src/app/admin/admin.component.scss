@@ -1,0 +1,40 @@
+.overview{
+    padding:50px 0;
+    margin-bottom: 10px;
+    h2{
+        color: rgba(0,0,0,0.54);
+        font-size: 20px;
+        font-weight: 400;
+        text-align: center;
+    }
+}
+
+.dashboard-container {
+    max-width: 1000px;
+    margin:0 auto;
+    .dashboard-card{
+        display: inline-block;
+        vertical-align: top;
+        min-height: 280px;
+        h2{
+            font-size: 20px;
+            font-weight: 500;
+            color: rgba(0,0,0,0.87);
+            margin-bottom: 5px;
+        }
+        p{
+            color: rgba(0,0,0,0.54);
+            font-size: 13px;
+            line-height: 20px;
+            margin-top: 0;
+        }
+        md-card-content{
+            margin-bottom:0;   
+        }
+        button{
+            min-width: 0;
+        }
+        width:250px;
+        margin: 10px;
+    }
+}

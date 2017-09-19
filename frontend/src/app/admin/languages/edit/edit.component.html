@@ -1,5 +1,5 @@
-<div class="animated fadeIn">
+<md-toolbar>
   <h3 [innerHTML]="'admin.languages.edit.title'|translate"></h3>
-  <div class='clearfix'></div>
-  <app-create-or-update [language]="language" (languageSubmitted)="onLanguageSubmitted($event)"></app-create-or-update>
-</div>
+</md-toolbar>
+<div class='clearfix'></div>
+<app-create-or-update [language]="language" (languageSubmitted)="onLanguageSubmitted($event)"></app-create-or-update>

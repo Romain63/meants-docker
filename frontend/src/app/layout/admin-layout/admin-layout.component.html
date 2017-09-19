@@ -1,71 +1,84 @@
-<header class="app-header navbar">
-    <button class="navbar-toggler d-lg-none" appMobileSidebarToggler type="button">&#9776;</button>
-    <a class="navbar-brand" [routerLink]="['']"></a>
-    <ul class="nav navbar-nav d-md-down-none">
-        <li class="nav-item">
-            <a class="nav-link navbar-toggler" appSidebarToggler href="#">&#9776;</a>
-        </li>
-    </ul>
-  <ul class="nav navbar-nav ml-auto">
-    <li class="nav-item dropdown" ngbDropdown>
-      <a href class="nav-link dropdown-toggle" ngbDropdownToggle (click)="toggleDropdown($event)">
-        <img src="assets/img/avatars/6.jpg" class="img-avatar" alt="admin@bootstrapmaster.com">
-        <span class="d-md-down-none">{{username}}</span>
-      </a>
-      <div class="dropdown-menu dropdown-menu-right" dropdownMenu aria-labelledby="simple-dropdown">
+<div fxLayout="column" id="main-container">
+    <!-- Toolbar -->
+    <md-toolbar color="primary" class="app-toolbar">
+        <button md-button class="md-icon-button" aria-label="Settings" ng-disabled="true" (click)="sidenav.toggle()">
+        <md-icon>menu</md-icon>
+    </button>
+        <h2 flex md-truncate [routerLink]="['/admin']">MeanTS</h2>
+    </md-toolbar>
+    <!-- / Toolbar -->
 
-        <!--<div class="dropdown-header text-center"><strong>Account</strong></div>
+    <!-- / Page -->
+    <md-sidenav-container class="md-container" fxFlex>
+        <!-- Sidenav -->
+        <md-sidenav mode="side" opened="true" #sidenav class="example-sidenav">
+            <!-- Top bloc -->
+            <div class="user-info" fxLayout="column" fxLayoutAlign="center center">
+                <div>
+                    <img src="/assets/img/avatar.png" class="img-avatar" alt="admin@bootstrapmaster.com" />
+                    <div class="user-info-content" fxLayout="row" fxLayoutAlign="start center">
+                        <div fxFlex> {{username}} </div>
+                        <button md-icon-button [mdMenuTriggerFor]="menu"><md-icon>arrow_drop_down</md-icon></button>
+                    </div>
+                </div>
+            </div>
+            <!-- / Top bloc -->
+            <!-- User parameters menu -->
+            <md-menu #menu="mdMenu">
+                <button md-menu-item [routerLink]="['/admin/users/', userModel.id, 'update']">
+                    <md-icon>perm_identity</md-icon>
+                    <span>Modifier le profil</span>
+                </button>
+                <button md-menu-item [routerLink]="['/admin/users/', userModel.id, 'password']">
+                    <md-icon>lock</md-icon>
+                    <span>Modifier le mdp</span>
+                </button>
+                <button md-menu-item>
+                    <md-icon>build</md-icon>
+                    <span>Paramètres</span>
+                </button>
+                <button md-menu-item class="logout-button" [routerLink]="['/logout']" routerLinkActive="active">
+                    <md-icon>exit_to_app</md-icon>
+                    <span>Logout</span>
+                </button>
+            </md-menu>
+            <!-- / User parameters menu -->
 
-        <a class="dropdown-item" href="#"><i class="fa fa-bell-o"></i> Updates<span class="badge badge-info">42</span></a>
-        <a class="dropdown-item" href="#"><i class="fa fa-envelope-o"></i> Messages<span class="badge badge-success">42</span></a>
-        <a class="dropdown-item" href="#"><i class="fa fa-tasks"></i> Tasks<span class="badge badge-danger">42</span></a>
-        <a class="dropdown-item" href="#"><i class="fa fa-comments"></i> Comment<span class="badge badge-warning">42</span></a>-->
+            <!-- Menu -->
+            <md-nav-list class="sidenav-list menu">
+                <md-list-item [routerLink]="['/admin']" routerLinkActive="active">
+                    <md-icon md-list-icon>home</md-icon>{{'admin.menu.overview' | translate }}
+                </md-list-item>
+                <h3 md-subheader>{{'admin.menu.title' | translate }}</h3>
+                <md-list-item [routerLink]="['/admin/users']" *appHasRight="'R_API_USER_R'" routerLinkActive="active">
+                    <md-icon md-list-icon>people</md-icon>{{'admin.menu.users' | translate }}
+                </md-list-item>
+                <md-list-item [routerLink]="['/admin/languages']" *appHasRight="'R_API_LANGUAGE_R'" routerLinkActive="active">
+                    <md-icon md-list-icon>flag</md-icon>{{'admin.menu.languages' | translate }}
+                </md-list-item>
+            </md-nav-list>
+            <!-- / Menu -->
 
-        <div class="dropdown-header text-center"><strong>Settings</strong></div>
+        </md-sidenav>
+        <!-- Sidenav -->
 
-        <a class="dropdown-item" [routerLink]="['']"><i class="fa fa-user"></i> Profile</a>
-        <a class="dropdown-item" [routerLink]="['/logout']"><i class="fa fa-lock"></i> Logout</a>
-      </div>
-    </li>
-    <li class="nav-item d-md-down-none">
-    </li>
-  </ul>
-</header>
+        <!-- Content-->
+        <div class="my-content">
+            <!-- Main content -->
+            <main>
+                <!-- Breadcrumb -->
+                <!-- <ol class="breadcrumb">
+                <app-breadcrumbs></app-breadcrumbs>
+            </ol> -->
 
-<div class="app-body" [style.min-height]="contentMinHeight">
-    <div class="sidebar">
-        <nav class="sidebar-nav">
-            <ul class="nav">
-                <li class="nav-item">
-                    <a class="nav-link" routerLinkActive="active" [routerLink]="['/admin']"><i class="icon-speedometer"></i> {{'admin.menu.dashboard' | translate }} <span class="badge badge-info">NEW</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" routerLinkActive="active" [routerLink]="['users']" *appHasRight="'R_API_USER_R'"><i class="icon-people"></i> {{'admin.menu.users' | translate }}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" routerLinkActive="active" [routerLink]="['languages']" *appHasRight="'R_API_LANGUAGE_R'"><i class="fa fa-globe"></i> {{'admin.menu.languages' | translate }}</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-
-    <!-- Main content -->
-    <main class="main">
-
-        <!-- Breadcrumb -->
-        <ol class="breadcrumb">
-            <app-breadcrumbs></app-breadcrumbs>
-        </ol>
-
-        <div class="container-fluid">
-            <router-outlet></router-outlet>
+                <div class="container-fluid">
+                    <router-outlet></router-outlet>
+                </div>
+                <!-- /.conainer-fluid -->
+            </main>
         </div>
-        <!-- /.conainer-fluid -->
-    </main>
-</div>
+        <!-- / Content-->
 
-<footer class="app-footer">
-    <a href="http://coreui.io">CoreUI</a> &copy; 2017 creativeLabs.
-    <span class="float-right">Powered by <a href="http://coreui.io">CoreUI</a>
-    </span>
-</footer>
+    </md-sidenav-container>
+    <!-- / Page -->
+</div>

@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -49,7 +48,6 @@ export class RightsComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private toastr: ToastrService,
     private translateService: TranslateService,
     private service: UsersService,
     private authorizationService: AuthorizationService
@@ -119,7 +117,6 @@ export class RightsComponent implements OnInit, OnDestroy {
    */
   save() {
     this.service.updateRights(this.userId, this.userRights).subscribe(data => {
-      this.toastr.success(this.translateService.instant('users.rights.save.success'));
       if (this.username === this.authorizationService.authInfo.username) {
         this.refreshUserRights();
       }

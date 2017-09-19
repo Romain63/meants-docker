@@ -1,10 +1,42 @@
-.header__loginmenu {
-    float: right;
-    padding-bottom: 10px;
-    padding-top: 5px;
-    margin-top: -60px;
+@import 'src/styles.scss';
 
-    a i.fa {
-        color: #FFF;
+.full-height{
+    height: 100%;
+}
+
+div.title {
+    font-family: Helvetica;
+    -webkit-font-smoothing: antialiased;
+    color: #636363;    
+    margin-bottom: 5px;
+    .login-logo {
+        width:100px;
+        margin-left: -20px;
     }
+    h1{
+        margin:0;
+    }
+    h3{
+        color: mat-color($primary)!important;   
+        margin:0;
+        font-size:1.1em;
+    }
+    
+}
+
+md-input-container{
+    width:100% !important;
+}
+
+.login-card {
+    width: 350px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+
+
+.login-button {
+    margin-top:10px;
+    min-height: 50px;
 }

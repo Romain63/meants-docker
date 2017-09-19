@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/switchMap';
@@ -12,14 +11,16 @@ import 'rxjs/add/operator/catch';
 import { UsersService } from './users.service';
 import { UserModel } from './user-model';
 import { environment } from '../../../environments/environment';
-import { BaseListComponent, ListFormParams } from '../../core/base-list-component';
+import { BaseListComponent } from '../../core/base-list-component';
+import { ListFormParams } from '../../core/list-form-params';
+import { MdDialog, MdDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss']
 })
-export class UsersComponent extends BaseListComponent<UserModel> implements OnInit {
+export class UsersComponent extends BaseListComponent<UserModel, ListFormParams> implements OnInit {
 
   /**
    * Initializes a new instance of the UsersComponent.
@@ -31,9 +32,9 @@ export class UsersComponent extends BaseListComponent<UserModel> implements OnIn
   constructor(
     private usersService: UsersService,
     formBuilder: FormBuilder,
-    modalService: NgbModal
+    public confirmDialog: MdDialog,
   ) {
-    super(formBuilder, modalService);
+    super(formBuilder, confirmDialog);
   }
 
   /**
@@ -41,8 +42,9 @@ export class UsersComponent extends BaseListComponent<UserModel> implements OnIn
    * @method
    */
   ngOnInit() {
-    this.sorts.push({ column: 'email', direction: 'asc' });
     super.ngOnInit();
+    this.dataSource._sort.active = 'email';
+    this.dataSource._sort.direction = 'asc';
   }
 
   /**
@@ -51,7 +53,7 @@ export class UsersComponent extends BaseListComponent<UserModel> implements OnIn
    * @param {ListFormParams} parameters The current search parameters.
    * @returns {Observable<TEntity[]>}
    */
-  getAll(parameters?: ListFormParams){
+  getAll(parameters?: ListFormParams) {
     return this.usersService.all(parameters);
   }
 
@@ -61,7 +63,7 @@ export class UsersComponent extends BaseListComponent<UserModel> implements OnIn
    * @param {string} search The searching terms.
    * @returns {Observable<TotalModel>}
    */
-  getTotal(search?: string){
+  getTotal(search?: string) {
     return this.usersService.allCount(search);
   }
 
@@ -71,7 +73,7 @@ export class UsersComponent extends BaseListComponent<UserModel> implements OnIn
    * @param {UserModel} entity The current entity to delete.
    * @returns {Observable<any>}
    */
-  deleteEntity(entity: UserModel){
+  deleteEntity(entity: UserModel) {
     return this.usersService.remove(entity.id);
   }
 }

@@ -3,16 +3,19 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { SIDEBAR_TOGGLE_DIRECTIVES } from './sidebar.directive';
-import { NAV_DROPDOWN_DIRECTIVES } from './nav-dropdown.directive';
 import { AuthenticationModule } from '../authentication/authentication.module';
-import { AsideToggleDirective } from './aside.directive';
 import { BreadcrumbsComponent } from './breadcrumb.component';
-import { PaginationComponent } from './pagination/pagination.component';
 import { KeysPipe } from './keys.pipe';
 import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MaterialModule, MdDialogModule } from '@angular/material';
+
+import {
+  MdTableModule, MdPaginatorModule, MdSortModule, MdInputModule, MdButtonModule, MdTabsModule,
+  MdSnackBarModule
+} from '@angular/material';
+import { CdkTableModule } from '@angular/cdk/table';
 
 @NgModule({
   imports: [
@@ -22,14 +25,20 @@ import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
     RouterModule,
     TranslateModule,
     AuthenticationModule,
-    NgbModule
+    FlexLayoutModule,
+    MdDialogModule,
+    MaterialModule,
+    MdTableModule,
+    MdPaginatorModule,
+    MdSortModule,
+    MdInputModule,
+    CdkTableModule,
+    MdButtonModule,
+    MdTabsModule,
+    MdSnackBarModule
   ],
   declarations: [
-    NAV_DROPDOWN_DIRECTIVES,
     BreadcrumbsComponent,
-    SIDEBAR_TOGGLE_DIRECTIVES,
-    AsideToggleDirective,
-    PaginationComponent,
     KeysPipe,
     ConfirmModalComponent
   ],
@@ -39,14 +48,18 @@ import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
     ReactiveFormsModule,
     RouterModule,
     TranslateModule,
-    NgbModule,
     AuthenticationModule,
-    NAV_DROPDOWN_DIRECTIVES,
     BreadcrumbsComponent,
-    SIDEBAR_TOGGLE_DIRECTIVES,
-    AsideToggleDirective,
-    PaginationComponent,
-    KeysPipe
+    KeysPipe,
+    FlexLayoutModule,
+    MdDialogModule,
+    MaterialModule,
+    MdTableModule,
+    MdPaginatorModule,
+    MdSortModule,
+    MdInputModule,
+    CdkTableModule,
+    MdButtonModule
   ],
   entryComponents: [
     ConfirmModalComponent

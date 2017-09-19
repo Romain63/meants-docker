@@ -7,7 +7,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { TranslateModule, TranslateService, TranslateLoader } from '@ngx-translate/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ToastrModule } from 'ngx-toastr';
 import { AuthHttp } from 'angular2-jwt';
 
 import { environment } from '../../environments/environment';
@@ -34,7 +33,6 @@ import { TranslateResolver } from './translate-resolver';
       }
     }),
     BrowserAnimationsModule,
-    ToastrModule.forRoot(),
     AuthenticationModule.forRoot()
   ],
   declarations: [

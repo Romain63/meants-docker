@@ -1,237 +1,239 @@
-import { OnDestroy, OnInit } from '@angular/core';
+import { OnDestroy, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { BehaviorSubject, Subject } from 'rxjs/Rx';
+import { DataSource } from '@angular/cdk/table';
+import { MdPaginator, MdSort } from '@angular/material';
 
 import { environment } from '../../environments/environment';
 import { ConfirmModalComponent } from '../shared/confirm-modal/confirm-modal.component';
-
-/**
- * Represents the sort class
- * @class
- */
-export class Sort {
-  /** Gets or sets the list element total. @property {string} */
-  column: string;
-
-  /** Gets or sets the list element total. @property {string} */
-  direction: string;
-}
-
-export class ListFormParams {
-  /** Gets or sets the list search text input. @property {string} */
-  search?: string;
-
-  /** Gets or sets the current page. @property {number} */
-  page: number;
-
-  /** Gets or sets the page element limit. @property {number} */
-  limit: number;
-
-  /** Gets or sets the sorting list string. @property {string} */
-  sort: string;
-}
+import { ListFormParams } from './list-form-params';
+import { MdDialog, MdDialogRef } from '@angular/material';
 
 export class TotalModel {
-  /** Gets or sets the total number of elements. @property {number} */
-  count: number;
+    /** Gets or sets the total number of elements. @property {number} */
+    count: number;
 }
 
 /**
  * Base list component for managing pagination and sorting for a list.
  * @class
  */
-export abstract class BaseListComponent<TEntity> implements OnInit, OnDestroy {
-  /** Gets or sets value indicating whether search on list is enabled. @property {boolean} */
-  searchEnabled = true;
+export abstract class BaseListComponent<TEntity, TListFormParams extends ListFormParams> implements OnInit, OnDestroy {
 
-  /** Gets or sets the data list. @property {TEntity[]} */
-  data: TEntity[];
+    /** Table view paginator */
+    @ViewChild(MdPaginator) paginator: MdPaginator;
 
-  /** Gets or sets the filters form group. @property {FormGroup} */
-  filterForm: FormGroup;
+    /** Handle sorting on table view */
+    @ViewChild(MdSort) sort: MdSort;
 
-  /** Gets or sets the list search text input. @property {string} */
-  search: string;
+    /** To filter the data list */
+    @ViewChild('filter') filter: ElementRef;
 
-  /** Gets or sets the list last search text input. @property {string} */
-  lastSearch: string;
+    /**
+     * Datasource to handle component list
+     */
+    dataSource: CustomDataSource<TEntity, TListFormParams> | null;
 
-  /** Gets or sets the list element total. @property {number} */
-  count: number;
+    /**
+     * Behavior subject for data changes on list
+     */
+    dataChange: BehaviorSubject<TEntity[]> = new BehaviorSubject<TEntity[]>([]);
 
-  /** Gets or sets the page element limit. @property {number} */
-  limit = environment.page.limit;
-
-  /** Gets or sets the current page. @property {number} */
-  currentPage = 1;
-
-  /** Gets or sets the sorting list. @property {Sort[]} */
-  sorts: Array<Sort> = [];
-
-  /**
-   * Gets the string sort list.
-   * @method
-   * @property {string}
-   */
-  get sort(): string {
-    if (!this.sorts || this.sorts.length === 0) {
-      return '';
+    /**
+     * Initializes a new instance of the {BaseListComponent}
+     * @constructor
+     * @param {FormBuilder} formBuilder The angular form builder.
+     * @param {NgbModal} modalService The bootstrap modal service.
+     */
+    constructor(
+        protected formBuilder: FormBuilder,
+        public confirmDialog: MdDialog,
+    ) {
     }
 
-    return this.sorts.map(item => item.column + ':' + item.direction).join(',');
-  }
-
-  /**
-   * Initializes a new instance of the {BaseListComponent}
-   * @constructor
-   * @param {FormBuilder} formBuilder The angular form builder.
-   * @param {NgbModal} modalService The bootstrap modal service.
-   */
-  constructor(
-    protected formBuilder: FormBuilder,
-    protected modalService: NgbModal
-  ) {
-  }
-
-  /**
-   * Occurred when component initializes.
-   * @method
-   */
-  ngOnInit() {
-    const params: ListFormParams = {
-      sort: this.sort,
-      page: this.currentPage,
-      limit: this.limit
-    };
-
-    // if search enabled add form serach param
-    if (this.searchEnabled) {
-      params.search = '';
-    }
-
-    this.filterForm = this.formBuilder.group(params);
-    this.filterForm.setValue(params);
-
-    this.initTable();
-
-    this.filterForm.valueChanges
-      .debounceTime(300)
-      .distinctUntilChanged()
-      .switchMap(parameters => {
-        if (parameters.search !== this.lastSearch) {
-          this.lastSearch = parameters.search;
-          this.getTotal(parameters.search).subscribe(result => this.count = result.count);
+    /**
+     * Occurred when component initializes.
+     * @method
+     */
+    ngOnInit() {
+        this.dataSource = new CustomDataSource(this, this.paginator, this.sort);
+        if (this.filter !== undefined) {
+            Observable.fromEvent(this.filter.nativeElement, 'keyup')
+                .debounceTime(150)
+                .distinctUntilChanged()
+                .subscribe(() => {
+                    if (!this.dataSource) { return; }
+                    this.dataSource.filter = this.filter.nativeElement.value;
+                });
         }
-
-        return this.getAll(parameters);
-      })
-      .subscribe(data => {
-        this.data = data;
-        this.currentPage = this.filterForm.value.page;
-      });
-  }
-
-  /**
-   * Occurred when component initializes.
-   * @method
-   */
-  ngOnDestroy() {
-  }
-
-  /**
-   * Initializes the list table.
-   * @method
-   */
-  initTable() {
-    this.getTotal(this.filterForm.value.search).subscribe(result => this.count = result.count);
-    this.getAll(this.filterForm.value).subscribe(result => this.data = result);
-  }
-
-  /**
-   * Gets all the element for a page.
-   * @method
-   * @param {ListFormParams} parameters The current search parameters.
-   * @returns {Observable<TEntity[]>}
-   */
-  abstract getAll(parameters?: ListFormParams): Observable<TEntity[]>;
-
-  /**
-   * Gets the total number of element.
-   * @method
-   * @param {string} search The searching terms.
-   * @returns {Observable<TotalModel>}
-   */
-  abstract getTotal(search?: string): Observable<TotalModel>;
-
-  /**
-   * Gets the sort direction for a column.
-   * @method
-   * @param {string} column The column name to sort.
-   */
-  getSortDirection(column: string) {
-    const sort = this.sorts.find(item => item.column === column);
-    return sort ? sort.direction : '';
-  }
-
-  /**
-   * Order list by columns.
-   * @method
-   * @param {string} column Sorting column.
-   */
-  orderListBy(column: string) {
-    const sort = this.sorts.find(item => item.column === column);
-    if (!sort) {
-      // add new sorts columns
-      this.sorts.push({ column: column, direction: 'asc' });
-    } else if (sort.direction === 'asc') {
-      sort.direction = 'desc';
-    } else {
-      const index = this.sorts.indexOf(sort);
-      this.sorts.splice(index, 1);
     }
 
-    this.currentPage = 1;
-    this.filterForm.patchValue({ page: this.currentPage, sort: this.sort });
-  }
+    /**
+     * Occurred when component initializes.
+     * @method
+     */
+    ngOnDestroy() {
+    }
 
-  /**
-   * Occurrend when page changed.
-   * @method
-   * @param {number} pageIndex The new page index.
-   */
-  onPageChanged(pageIndex: number) {
-    this.currentPage = pageIndex;
-    this.filterForm.patchValue({ page: pageIndex });
-  }
+    /**
+     * Gets all the element for a page.
+     * @method
+     * @param {ListFormParams} parameters The current search parameters.
+     * @returns {Observable<TEntity[]>}
+     */
+    abstract getAll(parameters?: ListFormParams): Observable<TEntity[]>;
 
-  /**
-   * Confirm an element deletion.
-   * @method
-   * @param {Event} event The current click event.
-   * @param {TEntity} entity The current entity to delete.
-   */
-  confirmDeleteContent(event: Event, entity: TEntity) {
-    event.preventDefault();
-    // TODO: delete content in BO
-    const modalRef = this.modalService.open(ConfirmModalComponent);
-    const instance = modalRef.componentInstance as ConfirmModalComponent;
-    instance.descriptionCode = 'common.data.delete';
-    instance.confirmModal.subscribe(confirm => {
-      if (!confirm) {
-        return;
-      }
+    /**
+     * Gets the total number of element.
+     * @method
+     * @param {string} search The searching terms.
+     * @returns {Observable<TotalModel>}
+     */
+    abstract getTotal(search?: string): Observable<TotalModel>;
 
-      this.deleteEntity(entity).subscribe(() => this.initTable());
-    });
-  }
+    /**
+     * Confirm an element deletion.
+     * @method
+     * @param {Event} event The current click event.
+     * @param {TEntity} entity The current entity to delete.
+     */
+    confirmDeleteContent(event: Event, entity: TEntity) {
+        event.preventDefault();
 
-  /**
-   * Delete an element.
-   * @method
-   * @param {TEntity} entity The current entity to delete.
-   * @returns {Observable<any>}
-   */
-  abstract deleteEntity(entity: TEntity): Observable<any>;
+        const dialogRef = this.confirmDialog.open(ConfirmModalComponent);
+        dialogRef.componentInstance.descriptionCode = 'common.data.delete';
+
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result !== undefined && result === true) {
+                this.deleteEntity(entity).subscribe(() => this.dataSource.refresh());
+            }
+            return;
+        });
+    }
+
+    /**
+     * Delete an element.
+     * @method
+     * @param {TEntity} entity The current entity to delete.
+     * @returns {Observable<any>}
+     */
+    abstract deleteEntity(entity: TEntity): Observable<any>;
+}
+
+
+export class CustomDataSource<TEntity, TListFormParams extends ListFormParams> extends DataSource<TEntity> {
+
+    /**
+     * Current datasource subject
+     */
+    subject: Subject<TEntity[]> = new BehaviorSubject<TEntity[]>(null);
+
+    /**
+     * Filter used to handle search for lists
+     */
+    searchFilter: ListFormParams = new ListFormParams();
+
+    /**
+     * Filter change behaviour subject
+     */
+    _filterChange = new BehaviorSubject('');
+
+    /**
+     * Get tje filter value
+     */
+    get filter(): string { return this._filterChange.value; }
+
+    /**
+     * Set the filter value
+     */
+    set filter(filter: string) { this._filterChange.next(filter); }
+
+
+    /**
+     * Total number of items on the list depending on search
+     */
+    totalLength: number;
+
+    /**
+     * Default constructor
+     * @param _component Super component
+     * @param _paginator List paginator component
+     * @param _sort List sort component
+     */
+    constructor(private _component: BaseListComponent<TEntity, TListFormParams>, private _paginator: MdPaginator, public _sort: MdSort) {
+        super();
+    }
+
+    /**
+     * Connect function called by the table to retrieve one stream containing the data to render.
+     */
+    connect(): Observable<TEntity[]> {
+        const displayDataChanges = [
+            this._sort.mdSortChange,
+            this._paginator.page,
+            this._filterChange
+        ];
+
+        this.searchFilter.page = 0;
+        this.searchFilter.limit = 5;
+
+        /*return Observable.merge(...displayDataChanges).map(() => {
+            const data = this._component.data.slice();
+
+            // Grab the page's slice of data.
+            const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
+            return data.splice(startIndex, this._paginator.pageSize);
+        });*/
+        Observable.merge(...displayDataChanges).subscribe((d) => {
+            if (d['active'] !== undefined && d['direction'] !== undefined && d['active'] !== '' && d['direction'] !== '') {
+                this.searchFilter.sort = d['active'] + ':' + d['direction'];
+            } else if (d['pageIndex'] !== undefined && d['pageIndex'] !== '') {
+                this.searchFilter.page = d['pageIndex'];
+            } else if (d['pageSize'] !== undefined && d['pageSize'] !== '') {
+                this.searchFilter.limit = d['pageSize'];
+            } else {
+                this.searchFilter.search = d;
+            }
+            this.getData(this.searchFilter);
+        });
+
+        if (!this.subject.isStopped) {
+            this.getData(this.searchFilter);
+        }
+        return Observable.merge(this.subject);
+    }
+
+    /**
+     * Refresh list datas
+     */
+    public refresh() {
+        this.getData(this.searchFilter)
+    }
+
+    /**
+     * Get the datas to display
+     * @param searchFilter Filter to search
+     */
+    private getData(searchFilter: ListFormParams) {
+        const totalObservable = this._component.getTotal();
+        const datasObservable = this._component.getAll(searchFilter);
+
+        totalObservable.subscribe((dto: TotalModel) => {
+            datasObservable.subscribe((datas: TEntity[]) => {
+                this.subject.next(datas);
+                this.totalLength = dto.count;
+            })
+        })
+    }
+
+    /**
+     * Datasource disconnect
+     */
+    disconnect() {
+        this.subject.complete();
+        this.subject.observers = [];
+    }
 }

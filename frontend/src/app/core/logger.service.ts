@@ -1,5 +1,4 @@
 import { Injectable, Injector } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../environments/environment';
@@ -16,18 +15,6 @@ export class Logger {
    * @property {boolean}
    */
   isProd = false;
-
-  /** Represents the toastr service. @private @property {ToastrService} */
-  private _toastr: ToastrService;
-
-  /** Gets the toastr service @property {ToastrService} */
-  get toastr() {
-    if (!this._toastr) {
-      this._toastr = this.injector.get(ToastrService);
-    }
-
-    return this._toastr;
-  }
 
   /**
    * Initializes a new instance of the Logger class.
@@ -86,8 +73,6 @@ export class Logger {
     if (errorBody['code']) {
       message = this.translateService.instant(errorBody['code']);
     }
-
-    this.toastr.error(message);
   }
 
   /**
@@ -98,7 +83,7 @@ export class Logger {
    */
   displaySuccess(code: string, interpolateParams?: Object) {
     this.translateService.get(code, interpolateParams).subscribe(message => {
-      this.toastr.success(message);
+      //
     });
   }
 

@@ -32,7 +32,6 @@ export class CreateComponent implements OnInit {
   }
 
   onUserSubmitted(data: UserModel) {
-    console.log('user saved:', data);
     this.service.create(data).subscribe((response) => {
       this.user = response;
       this.goBack();

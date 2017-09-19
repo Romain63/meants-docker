@@ -16,7 +16,7 @@ const emailPattern = '^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@(
 })
 export class CreateOrUpdateComponent implements OnChanges {
 
-  /** Gets or sets the user model @property {number} */
+  /** Gets or sets the user model @property {UserModel} */
   @Input() user: UserModel;
 
   /** Gets or sets the user submitted event @property {number} */
@@ -37,12 +37,20 @@ export class CreateOrUpdateComponent implements OnChanges {
     return this.user && this.user.id && this.user.id !== '' ? 'edit' : 'create';
   }
 
+
   /** Gets or sets a value indicating whether form is submitted @property {boolean} */
   civilities = [
     'core.users.civility.0',
     'core.users.civility.1',
     'core.users.civility.2'
   ];
+
+  professions = [
+    'core.users.profession.0',
+    'core.users.profession.1',
+    'core.users.profession.2'
+  ];
+
 
   /**
    * Initializes a new instance of the CreateOrUpdateComponent.
@@ -67,7 +75,8 @@ export class CreateOrUpdateComponent implements OnChanges {
       email: ['', Validators.compose([Validators.required, Validators.pattern(emailPattern)])],
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
-      passwordGroup: this.formBuilder.group(this.initPasswordGroup(), { validator: this.areEquals() })
+      passwordGroup: this.formBuilder.group(this.initPasswordGroup(), { validator: this.areEquals() }),
+      profession: ['', Validators.required],
     });
 
     // set civility to integer
@@ -97,7 +106,6 @@ export class CreateOrUpdateComponent implements OnChanges {
     if (!changes.user || changes.user.currentValue === changes.user.previousValue) {
       return;
     }
-
     const group = this.form.controls.passwordGroup as FormGroup;
 
     // get the form model
@@ -160,7 +168,6 @@ export class CreateOrUpdateComponent implements OnChanges {
     if (!this.form.valid) {
       return;
     }
-
     const model = UserViewModel.toModel(this.form.value);
     this.userSubmitted.emit(model);
   }

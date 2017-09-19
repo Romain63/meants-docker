@@ -1,31 +1,18 @@
-<div class="animated fadeIn">
+<md-toolbar>
   <h3 [innerHTML]="'users.rights.title'|translate"></h3>
-  <div class='clearfix'></div>
-  <br/>
-  <div class='clearfix'></div>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-6 col-lg-3" *ngFor="let key of rights | appKeys">
-        <div class="card">
-          <div class="card-header">
-            {{ key }}
-          </div>
-          <div class="card-block">
-            <div class="container-fluid">
-              <div class="row" *ngFor="let right of rights[key]">
-                <div class="form-group">
-                  <input type="checkbox" id="{{right}}" [checked]="hasRight(right)" (click)="toggleRight(right)" />&emsp;
-                  <label [attr.for]="right">{{right}}</label>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+</md-toolbar>
+<div class="content">
+  <md-grid-list cols="4" rowHeight="180px">
+    <md-grid-tile *ngFor="let key of rights | appKeys">
+      <md-grid-tile-header>{{ key }}</md-grid-tile-header>
+      <div class="tile-content" fxLayout="column">
+        <md-slide-toggle *ngFor="let right of rights[key]" id="{{right}}" [checked]="hasRight(right)" (change)="toggleRight(right)">
+          {{right}}
+        </md-slide-toggle>
       </div>
-    </div>
-    <div class='clearfix'></div>
-    <button type="button" class="btn btn-lg btn-primary btn-block btn-save" (click)="save()">
-      {{'users.rights.save' |translate}}
-    </button>
-  </div>
+    </md-grid-tile>
+  </md-grid-list>
+  <button md-raised-button type="button" (click)="save()">
+    {{'users.rights.save' |translate}}
+  </button>
 </div>

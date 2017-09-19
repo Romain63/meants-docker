@@ -2,33 +2,27 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { AgmCoreModule } from 'angular2-google-maps/core';
-//import { Ng2BootstrapModule } from 'ngx-bootstrap';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ToastrModule } from 'ngx-toastr';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { LayoutModule } from './layout/layout.module';
 import { environment } from '../environments/environment';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from '@angular/material';
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
-    AgmCoreModule.forRoot({
-      apiKey: environment.mapsApiKey,
-      libraries: ['places']
-    }),
     BrowserModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    MaterialModule,
     CoreModule,
     LayoutModule,
     AppRoutingModule,
-    //Ng2BootstrapModule.forRoot(),
-    NgbModule.forRoot(),
-    ToastrModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

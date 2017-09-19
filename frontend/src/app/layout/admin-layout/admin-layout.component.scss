@@ -1,0 +1,70 @@
+@import 'src/styles.scss';
+
+body {
+  margin: 0px;
+  width: 100%;
+  height: 100%;
+}
+
+.app-toolbar {
+  box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);
+  position: relative;
+  z-index: 10;
+  background-color:#083045!important;
+  .md-icon-button.mat-button{
+    min-width: 0;
+    padding:0;
+    margin-right: 10px;
+  }
+}
+
+.app {
+  height: 100% !important;
+}
+
+.logout-button {
+  min-height: 30px;
+}
+
+.sidenav-list {
+  padding-top: 0px;
+}
+
+md-nav-list.menu{
+  h3{
+    color: rgba(0,0,0,0.38);
+    font-size: 12px;
+    line-height: 24px;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    margin:0;
+  }
+  md-list-item{
+    color: rgba(0,0,0,0.54) !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0 !important;
+    line-height: 20px !important;
+    padding-right:15px;
+    &.active{
+      color:#1590bc !important;
+    }
+  }
+}
+
+.user-info {
+  background-color: mat-color($primary)!important;
+  height: 150px;
+  background-size: 100% 100%;
+  background-image: url('/assets/img/background.png');
+  margin-bottom: 20px;
+  .user-info-content{
+    padding-left: 20px;
+    color: white;
+  }
+  .img-avatar {
+    width: 100px;
+    margin-top:15px;
+  }
+}
+

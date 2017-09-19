@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { TranslateResolver } from '../core/translate-resolver';
 import { AdminComponent } from './admin.component';
-import { GmapsComponent } from './gmaps/gmaps.component';
 import { AdminDashboardGuard } from './admin-dashboard-guard';
 
 const routes: Routes = [

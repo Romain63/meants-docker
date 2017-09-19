@@ -143,6 +143,15 @@ export class UsersService {
   }
 
   /**
+   * Get the current user
+   * @method
+   * @returns {Observable<UserModel>}
+   */
+  getCurrentUser() {
+    return this.http.get(`${this.baseUrl}users/me`).map(response => response.json() as UserModel);
+  }
+
+  /**
    * Gets user rights.
    * @method
    * @param {string} id The current user identifier.

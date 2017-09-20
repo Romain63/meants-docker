@@ -7,6 +7,7 @@ import { LogoutComponent } from './authentication/logout/logout.component';
 import { ForbiddenComponent } from './authentication/forbidden/forbidden.component';
 import { ForgotPasswordComponent } from './authentication/forgot-password/forgot-password.component';
 import { AuthorizationGuard, AuthorizationChildGuard } from './authentication/guards';
+import { DataRoutingModule } from './datas/data-routing.module';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -22,6 +23,16 @@ const routes: Routes = [
       {
         path: '',
         loadChildren: './admin/admin.module#AdminModule',
+      }
+    ]
+  },
+  {
+    path: 'data',
+    component: AdminLayoutComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: './datas/data.module#DataModule',
       }
     ]
   },

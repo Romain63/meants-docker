@@ -56,6 +56,10 @@
                 <md-list-item [routerLink]="['/admin/languages']" *appHasRight="'R_API_LANGUAGE_R'" routerLinkActive="active">
                     <md-icon md-list-icon>flag</md-icon>{{'admin.menu.languages' | translate }}
                 </md-list-item>
+                <h3 md-subheader>{{'datas.menu.title' | translate }}</h3>
+                <md-list-item [routerLink]="['/data']" *appHasRight="'R_API_USER_R'" routerLinkActive="active">
+                    <md-icon md-list-icon>people</md-icon>{{'datas.menu.measure' | translate }}
+                </md-list-item>
             </md-nav-list>
             <!-- / Menu -->
 

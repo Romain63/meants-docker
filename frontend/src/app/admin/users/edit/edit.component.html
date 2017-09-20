@@ -1,6 +1,5 @@
-<div class="animated fadeIn">
+<md-toolbar>
   <h3 [innerHTML]="'admin.users.edit.title'|translate"></h3>
-  <div class='clearfix'></div>
-  <br />
-  <app-create-or-update [user]="user" (userSubmitted)="onUserSubmitted($event)"></app-create-or-update>
-</div>
+</md-toolbar>
+<div class='clearfix'></div>
+<app-create-or-update [user]="user" (userSubmitted)="onUserSubmitted($event)"></app-create-or-update>

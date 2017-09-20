@@ -1,28 +1,31 @@
-<form [formGroup]="form" class="form-content" novalidate (submit)="save($event)">
-  <input type="hidden" formControlName="id" />
-  <div fxLayout="column">
-    <md-input-container fxFlex="33">
-      <input mdInput placeholder="{{'admin.languages.model.name'|translate}}" [formControl]="form.controls.name">
-      <md-error *ngIf="form.controls.name.hasError('required')">
-        {{'admin.languages.model.name.required'|translate}}
-      </md-error>
-    </md-input-container>
+<div class="content-wrapper">
+  <form [formGroup]="form" class="form-content" novalidate (submit)="save($event)">
+    <input type="hidden" formControlName="id" />
+    <div fxLayout="column">
+      <md-input-container fxFlex="33">
+        <input mdInput placeholder="{{'admin.languages.model.name'|translate}}" [formControl]="form.controls.name">
+        <md-error *ngIf="form.controls.name.hasError('required')">
+          {{'admin.languages.model.name.required'|translate}}
+        </md-error>
+      </md-input-container>
 
-    <md-select fxFlex="33" placeholder="{{'admin.languages.model.culture'|translate}}" [formControl]="form.controls.culture" required="true">
-      <md-option *ngFor="let culture of cultures" [value]="culture.code">{{culture.name}}</md-option>
-      <md-error *ngIf="form.controls.culture.hasError('required')">
-        {{'admin.languages.model.culture.required'|translate}}
-      </md-error>
-    </md-select>
+      <md-select fxFlex="33" placeholder="{{'admin.languages.model.culture'|translate}}" [formControl]="form.controls.culture"
+        required="true">
+        <md-option *ngFor="let culture of cultures" [value]="culture.code">{{culture.name}}</md-option>
+        <md-error *ngIf="form.controls.culture.hasError('required')">
+          {{'admin.languages.model.culture.required'|translate}}
+        </md-error>
+      </md-select>
 
-    <md-input-container fxFlex="33">
-      <input mdInput placeholder="{{'admin.languages.model.flag'|translate}}" [formControl]="form.controls.flag">
-      <md-error *ngIf="form.controls.flag.hasError('required')">
-        {{'admin.languages.model.flag.required'|translate}}
-      </md-error>
-    </md-input-container>
-  </div>
-  <div fxLayout="row">
-    <button md-button type="submit" fxFlex="20" fxFlexOffset="80">{{'admin.languages.model.' + action |translate}}</button >
+      <md-input-container fxFlex="33">
+        <input mdInput placeholder="{{'admin.languages.model.flag'|translate}}" [formControl]="form.controls.flag">
+        <md-error *ngIf="form.controls.flag.hasError('required')">
+          {{'admin.languages.model.flag.required'|translate}}
+        </md-error>
+      </md-input-container>
+    </div>
+    <div fxLayout="row">
+      <button md-button type="submit" fxFlex="20" fxFlexOffset="80">{{'admin.languages.model.' + action |translate}}</button >
   </div>
 </form>
+</div>

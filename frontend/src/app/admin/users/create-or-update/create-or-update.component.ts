@@ -45,13 +45,6 @@ export class CreateOrUpdateComponent implements OnChanges {
     'core.users.civility.2'
   ];
 
-  professions = [
-    'core.users.profession.0',
-    'core.users.profession.1',
-    'core.users.profession.2'
-  ];
-
-
   /**
    * Initializes a new instance of the CreateOrUpdateComponent.
    * @constructor
@@ -76,7 +69,6 @@ export class CreateOrUpdateComponent implements OnChanges {
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
       passwordGroup: this.formBuilder.group(this.initPasswordGroup(), { validator: this.areEquals() }),
-      profession: ['', Validators.required],
     });
 
     // set civility to integer

@@ -305,8 +305,8 @@ export class MongoService<TDocument extends MongoModelBase> {
     const limit = parseInt((pagination && pagination.limit || 0).toString(), 10) || 0;
     const page = parseInt((pagination && pagination.page || 0).toString(), 10) || 0;
 
-    if (limit > 0 && page > 0) {
-      query = query.skip(limit * (page - 1)).limit(limit);
+    if (limit > 0) {
+      query = query.skip(limit * (page)).limit(limit);
     }
 
     return query;

@@ -190,12 +190,17 @@ export class CustomDataSource<TEntity, TListFormParams extends ListFormParams> e
         Observable.merge(...displayDataChanges).subscribe((d) => {
             if (d['active'] !== undefined && d['direction'] !== undefined && d['active'] !== '' && d['direction'] !== '') {
                 this.searchFilter.sort = d['active'] + ':' + d['direction'];
-            } else if (d['pageIndex'] !== undefined && d['pageIndex'] !== '') {
+            }
+            if (d['pageIndex'] !== undefined && d['pageIndex'] !== '') {
                 this.searchFilter.page = d['pageIndex'];
-            } else if (d['pageSize'] !== undefined && d['pageSize'] !== '') {
+            }
+            if (d['pageSize'] !== undefined && d['pageSize'] !== '') {
                 this.searchFilter.limit = d['pageSize'];
-            } else {
+            }
+            if (d['pageSize'] === undefined && d['pageIndex'] === undefined && d['active'] === undefined) {
                 this.searchFilter.search = d;
+                this.searchFilter.page = 0;
+                this._paginator.pageIndex = 0;
             }
             this.getData(this.searchFilter);
         });

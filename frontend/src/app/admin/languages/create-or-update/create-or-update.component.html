@@ -1,5 +1,9 @@
 <div class="content-wrapper">
-  <form [formGroup]="form" class="form-content" novalidate (submit)="save($event)">
+  <form [formGroup]="form" novalidate (submit)="save($event)">
+    <md-toolbar>
+      <button md-raised-button color="primary" type="submit" fxFlex="20" fxFlexOffset="80">{{'admin.languages.model.' + action |translate}}</button >
+              </md-toolbar>
+      <div class="form-content" >
     <input type="hidden" formControlName="id" />
     <div fxLayout="column">
       <md-input-container fxFlex="33">
@@ -24,8 +28,6 @@
         </md-error>
       </md-input-container>
     </div>
-    <div fxLayout="row">
-      <button md-button type="submit" fxFlex="20" fxFlexOffset="80">{{'admin.languages.model.' + action |translate}}</button >
   </div>
 </form>
 </div>

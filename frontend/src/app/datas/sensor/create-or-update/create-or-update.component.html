@@ -1,0 +1,38 @@
+<div class="content-wrapper">
+  <form [formGroup]="form" novalidate (submit)="save($event)" fxLayout="column" fxLayoutGap="30px">
+    <md-toolbar>
+      <button md-raised-button color="primary" type="submit" fxFlex="20" fxFlexOffset="80">{{'admin.sensor.model.' + action |translate}}</button >
+        </md-toolbar>
+    <div class="form-content">
+    <input type="hidden" formControlName="id" />
+
+    <md-input-container fxLayout="row">
+      <input mdInput placeholder="{{'admin.sensor.model.name'|translate}}" [formControl]="form.controls.name">
+      <md-error *ngIf="form.controls.name.hasError('required')">
+        {{'admin.sensor.model.name.required'|translate}}
+      </md-error>
+    </md-input-container>
+
+    <md-input-container fxLayout="row">
+      <input mdInput placeholder="{{'admin.sensor.model.description'|translate}}" [formControl]="form.controls.description">
+      <md-error *ngIf="form.controls.description.hasError('required')">
+        {{'admin.sensor.model.description.required'|translate}}
+      </md-error>
+    </md-input-container>
+
+    <md-input-container fxLayout="row">
+      <input type="number" mdInput placeholder="{{'admin.sensor.model.identifier'|translate}}" [formControl]="form.controls.identifier">
+      <md-error *ngIf="form.controls.identifier.hasError('required')">
+        {{'admin.users.model.identifier.required'|translate}}
+      </md-error>
+    </md-input-container>
+
+    <md-input-container fxLayout="row">
+      <input  mdInput placeholder="{{'admin.sensor.model.room'|translate}}" [formControl]="form.controls.room">
+      <md-error *ngIf="form.controls.room.hasError('required')">
+        {{'admin.users.model.room.required'|translate}}
+      </md-error>
+    </md-input-container>
+  </div>
+  </form>
+</div>

@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { TranslateResolver } from '../core/translate-resolver';
 import { MeasureComponent } from './measure/measure.component';
+import { SensorComponent } from './sensor/sensor.component';
 
 const routes: Routes = [
   {
@@ -14,8 +15,12 @@ const routes: Routes = [
       title: TranslateResolver
     },
     children: [
-      { path: '', component: MeasureComponent },
-      { path: '**', redirectTo: '', pathMatch: 'full' }
+      { path: 'measure', component: MeasureComponent },
+      {
+        path: 'sensor',
+        loadChildren: './sensor/sensor.module#SensorModule',
+      },
+      { path: '**', redirectTo: 'measure', pathMatch: 'full' }
     ]
   }
 ];

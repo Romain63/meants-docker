@@ -7,8 +7,13 @@ import { Right } from './decorators';
 /** Represents the Languages rights */
 @Right('LANGUAGE') export class LanguageRights extends RightsBase { };
 
+@Right('SENSOR') export class SensorRights extends RightsBase { };
+
+@Right('DATAS') export class DatasRights extends RightsBase { };
+
 /** Represents the Languages Resources rights */
 @Right('LANGUAGE_RESOURCE') export class LanguageResourceRights extends RightsBase { };
+
 
 /** Represents the Dashboard rights */
 export class DashboardRights {

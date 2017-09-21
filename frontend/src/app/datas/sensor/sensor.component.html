@@ -1,0 +1,52 @@
+<md-toolbar>
+    <h3 [innerHTML]="'admin.sensor.title'|translate"></h3>
+</md-toolbar>
+<div class="content-wrapper">
+
+    <md-toolbar>
+        <md-icon>search</md-icon>&ensp;
+        <md-input-container floatPlaceholder="never">
+            <input mdInput #filter placeholder="{{'admin.sensor.search.placeholder'|translate}}">
+        </md-input-container>
+        <div fxFlex></div>
+        <button md-raised-button color="primary" [routerLink]="['new']" *appHasRight="'R_API_SENSOR_C'"><md-icon>add_circle</md-icon>&emsp;{{'admin.sensor.new'|translate}}</button>
+    </md-toolbar>
+
+    <div class="col-md-12">
+        <md-table #table [dataSource]="dataSource" mdSort>
+            <!-- User name Definition -->
+            <ng-container cdkColumnDef="name">
+                <md-header-cell *cdkHeaderCellDef md-sort-header><span [innerHTML]="'admin.sensor.header.name'|translate"></span></md-header-cell>
+                <md-cell *cdkCellDef="let row"> {{row.name}} </md-cell>
+            </ng-container>
+
+            <ng-container cdkColumnDef="description">
+                <md-header-cell *cdkHeaderCellDef md-sort-header><span [innerHTML]="'admin.sensor.header.description'|translate"></span></md-header-cell>
+                <md-cell *cdkCellDef="let row"> {{row.description}} </md-cell>
+            </ng-container>
+            <ng-container cdkColumnDef="identifier">
+                <md-header-cell *cdkHeaderCellDef><span [innerHTML]="'admin.sensor.header.identifier'|translate"></span></md-header-cell>
+                <md-cell *cdkCellDef="let row">{{row.identifier}}</md-cell>
+            </ng-container>
+            <ng-container cdkColumnDef="room">
+                <md-header-cell *cdkHeaderCellDef><span [innerHTML]="'admin.sensor.header.room'|translate"></span></md-header-cell>
+                <md-cell *cdkCellDef="let row">{{row.room}}</md-cell>
+            </ng-container>
+
+            <ng-container cdkColumnDef="action">
+                <md-header-cell *cdkHeaderCellDef><span [innerHTML]="'admin.sensor.header.actions'|translate"></span></md-header-cell>
+                <md-cell *cdkCellDef="let row">
+                    <button *appHasRight="'R_API_SENSOR_C'" md-button class="cell-action-button" [routerLink]="[row.id, 'update']"><md-icon>mode_edit</md-icon></button>
+                    <button *appHasRight="'R_API_SENSOR_D'" md-button class="cell-action-button" (click)="confirmDeleteContent($event, row)"><md-icon>delete</md-icon></button>
+                </md-cell>
+            </ng-container>
+
+            <!-- Header and Row Declarations -->
+            <md-header-row *cdkHeaderRowDef="['name', 'description', 'identifier','room', 'action']"></md-header-row>
+            <md-row *cdkRowDef="let row; columns: ['name','description', 'identifier','room', 'action']"></md-row>
+        </md-table>
+
+        <md-paginator #paginator [length]="dataSource.totalLength" [pageIndex]="0" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]">
+        </md-paginator>
+    </div>
+</div>

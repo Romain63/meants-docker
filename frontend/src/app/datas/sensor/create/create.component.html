@@ -1,0 +1,5 @@
+<md-toolbar>
+  <h3 [innerHTML]="'admin.sensor.new.title'|translate"></h3>
+</md-toolbar>
+<div class='clearfix'></div>
+<app-create-or-update [sensor]="sensor" (sensorSubmitted)="onSensorSubmitted($event)"></app-create-or-update>

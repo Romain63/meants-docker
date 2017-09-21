@@ -28,3 +28,6 @@ mongorestore --host localhost:27018  --gzip --archive=mongodb-dump-00.agz
 
 - go to [http://localhost:8080](http://localhost:8080) in your browser
 - use account admin/admin
+
+
+"C:\Program Files\MongoDB\Server\3.4\bin\mongoimport" --db meteoDB --collection Measure --file datas.json

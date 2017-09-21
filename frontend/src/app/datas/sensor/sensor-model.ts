@@ -1,3 +1,5 @@
+import { MeasureModel } from '../measure/measure-model';
+
 export class SensorModel {
 
     /** Gets or sets the user identifier @property {string} */
@@ -24,4 +26,5 @@ export class SensorModel {
      */
     description: string;
 
+    lastMeasure?: MeasureModel;
 }

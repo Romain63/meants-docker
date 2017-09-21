@@ -9,7 +9,10 @@ import { Right } from './decorators';
 
 @Right('SENSOR') export class SensorRights extends RightsBase { };
 
+@Right('MEASURE') export class MeasureRights extends RightsBase { };
+
 @Right('DATAS') export class DatasRights extends RightsBase { };
+
 
 /** Represents the Languages Resources rights */
 @Right('LANGUAGE_RESOURCE') export class LanguageResourceRights extends RightsBase { };

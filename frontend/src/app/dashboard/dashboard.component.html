@@ -1,0 +1,15 @@
+<md-toolbar>
+    <h3 [innerHTML]="'dashboard.title'|translate"></h3>
+</md-toolbar>
+<div class="animated fadeIn dashboard-container">
+    <md-card class="dashboard-card" *ngFor="let sensor of sensors">
+        <md-toolbar>
+            {{ sensor.name }}
+        </md-toolbar>
+        <md-card-content>
+            <div class="tile-content" fxLayout="column">
+                {{ sensor.lastMeasure?.temperature}}
+            </div>
+        </md-card-content>
+    </md-card>
+</div>

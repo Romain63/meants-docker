@@ -1,3 +1,40 @@
-<div class="animated fadeIn">
-    <chart [options]="options"></chart>
+<md-toolbar>
+    <h3 [innerHTML]="'admin.measure.title'|translate"></h3>
+</md-toolbar>
+<div class="content-wrapper">
+
+    <md-toolbar>
+        <md-icon>search</md-icon>&ensp;
+        <md-input-container floatPlaceholder="never">
+            <input mdInput #filter placeholder="{{'admin.measure.search.placeholder'|translate}}">
+        </md-input-container>
+        <div fxFlex></div>
+        <button md-raised-button color="primary" [routerLink]="['new']" *appHasRight="'R_API_MEASURE_C'"><md-icon>add_circle</md-icon>&emsp;{{'admin.measure.new'|translate}}</button>
+    </md-toolbar>
+
+    <div class="col-md-12">
+        <md-table #table [dataSource]="dataSource" mdSort>
+            <!-- User temperature Definition -->
+            <ng-container cdkColumnDef="temperature">
+                <md-header-cell *cdkHeaderCellDef md-sort-header><span [innerHTML]="'admin.measure.header.temperature'|translate"></span></md-header-cell>
+                <md-cell *cdkCellDef="let row"> {{row.temperature}} </md-cell>
+            </ng-container>
+
+            <ng-container cdkColumnDef="sensor">
+                <md-header-cell *cdkHeaderCellDef md-sort-header><span [innerHTML]="'admin.measure.header.sensor'|translate"></span></md-header-cell>
+                <md-cell *cdkCellDef="let row"> {{row.sensor}} </md-cell>
+            </ng-container>
+            <ng-container cdkColumnDef="time">
+                <md-header-cell *cdkHeaderCellDef><span [innerHTML]="'admin.measure.header.time'|translate"></span></md-header-cell>
+                <md-cell *cdkCellDef="let row">{{row.time}}</md-cell>
+            </ng-container>
+
+            <!-- Header and Row Declarations -->
+            <md-header-row *cdkHeaderRowDef="['temperature', 'sensor', 'time']"></md-header-row>
+            <md-row *cdkRowDef="let row; columns: ['temperature', 'sensor', 'time']"></md-row>
+        </md-table>
+
+        <md-paginator #paginator [length]="dataSource.totalLength" [pageIndex]="0" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]">
+        </md-paginator>
+    </div>
 </div>

@@ -36,6 +36,16 @@ const routes: Routes = [
       }
     ]
   },
+  {
+    path: 'dashboard',
+    component: AdminLayoutComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: './dashboard/dashboard.module#DashboardModule',
+      }
+    ]
+  },
   { path: '', redirectTo: 'admin', pathMatch: 'full' },
   { path: '**', redirectTo: '', pathMatch: 'full' }
 ];

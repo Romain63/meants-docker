@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { TranslateResolver } from '../core/translate-resolver';
-import { MeasureComponent } from './measure/measure.component';
-import { SensorComponent } from './sensor/sensor.component';
 
 const routes: Routes = [
   {
@@ -15,7 +13,10 @@ const routes: Routes = [
       title: TranslateResolver
     },
     children: [
-      { path: 'measure', component: MeasureComponent },
+      {
+        path: 'measure',
+        loadChildren: './measure/measure.module#MeasureModule',
+      },
       {
         path: 'sensor',
         loadChildren: './sensor/sensor.module#SensorModule',

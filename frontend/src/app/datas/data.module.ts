@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { DataRoutingModule } from './data-routing.module';
 import { ChartModule } from 'angular2-highcharts';
 import { HighchartsStatic } from 'angular2-highcharts/dist/HighchartsService';
-
-import { MeasureComponent } from './measure/measure.component';
 import { SharedModule } from '../shared/shared.module';
 
 declare var require: any;
@@ -23,7 +21,7 @@ export function highchartsFactory() {
     DataRoutingModule,
   ],
   declarations: [
-    MeasureComponent
+
   ],
   providers: [
     {

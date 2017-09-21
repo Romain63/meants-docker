@@ -80,6 +80,21 @@ export class MongoService<TDocument extends MongoModelBase> {
     return documents;
   }
 
+    /**
+   * Gets a list of collection documents depends on query and pagination filter.
+   * @method
+   * @param {Object} query The query filter.
+   * @param {PaginationFilter} pagination The requested pagination filter.
+   * @returns {Promise<TDocument[]>}
+   */
+  async findAndSort(query: any, sort : any, limit: number) {
+    const col = await this.collection();
+    const cursor = col.find(query).sort(sort).limit(limit) as Cursor<TDocument>;
+    const documents = await cursor.toArray();
+    (documents || []).forEach(item => this.serialize(item));
+    return documents;
+  }
+
   /**
    * Gets a list of collection partial documents depends on query and pagination filter.
    * Only document properties defined in select Object would be returned.

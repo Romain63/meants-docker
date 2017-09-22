@@ -31,15 +31,16 @@ export class DashboardComponent implements OnInit {
       }]
     };
 
-    let filter: SensorFilter = new SensorFilter();
+    this.sensors = new Array<SensorModel>();
+
+    const filter: SensorFilter = new SensorFilter();
     filter.limit = 0;
     filter.page = 0;
     this.sensorService.all(filter).subscribe((datas: SensorModel[]) => {
       datas.forEach(sensor => {
         this.measureService.getLastMeasureBySensorId(sensor.id).subscribe((lastMeasure: MeasureModel) => {
           sensor.lastMeasure = lastMeasure;
-          console.log(lastMeasure)
-          this.sensors = datas;
+          this.sensors.push(sensor);
         })
       });
     });

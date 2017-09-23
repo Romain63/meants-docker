@@ -118,7 +118,7 @@ export class SensorService {
      * @param {string} id The sensor identifier to remove.
      */
     remove(id: string) {
-        return this.http.delete(`${this.baseUrl}sensor/${id}`, { headers: this.headers })
+        return this.http.delete(`${this.baseUrl}sensors/${id}`, { headers: this.headers })
             .map(response => response.json());
     }
 }

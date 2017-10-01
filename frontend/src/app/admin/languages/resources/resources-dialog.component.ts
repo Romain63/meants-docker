@@ -1,5 +1,5 @@
 import { Component, Inject, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { MdDialog, MdDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ResourceModel } from '../resource-model';
 import { LanguagesService } from '../languages.service';
@@ -18,7 +18,7 @@ export class LanguageResourcesDialogComponent {
 
     public languageId: string;
 
-    constructor(public dialogRef: MdDialogRef<LanguageResourcesDialogComponent>,
+    constructor(public dialogRef: MatDialogRef<LanguageResourcesDialogComponent>,
         public formBuilder: FormBuilder, private service: LanguagesService) {
         this.initEditForm();
     }

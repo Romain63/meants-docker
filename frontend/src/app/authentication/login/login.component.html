@@ -12,27 +12,27 @@
       </div>
     </div>
 
-    <md-card class="login-card">
+    <mat-card class="login-card">
       <form class="form-signin" [formGroup]="loginForm" role="form" novalidate (submit)="login($event)">
         <div fxLayout="column">
-          <md-input-container class="login-margin" fxFlex>
-            <input mdInput placeholder="{{'login.email'|translate}}" [formControl]="loginForm.controls.email" >
-            <md-error *ngIf="loginForm.controls.email.hasError('required')">
-            </md-error>
-            <md-icon mdSuffix>mail_outline</md-icon>
-          </md-input-container>
-          <md-input-container class="login-margin" fxFlex>
-            <input mdInput type="password" placeholder="{{'login.password'|translate}}" [formControl]="loginForm.controls.password" >
-            <md-error *ngIf="loginForm.controls.password.hasError('required')">
-            </md-error>
-            <md-icon mdSuffix>lock_outline</md-icon>
-          </md-input-container>
+          <mat-input-container class="login-margin" fxFlex>
+            <input matInput placeholder="{{'login.email'|translate}}" [formControl]="loginForm.controls.email" >
+            <mat-error *ngIf="loginForm.controls.email.hasError('required')">
+            </mat-error>
+            <mat-icon matSuffix>mail_outline</mat-icon>
+          </mat-input-container>
+          <mat-input-container class="login-margin" fxFlex>
+            <input matInput type="password" placeholder="{{'login.password'|translate}}" [formControl]="loginForm.controls.password" >
+            <mat-error *ngIf="loginForm.controls.password.hasError('required')">
+            </mat-error>
+            <mat-icon matSuffix>lock_outline</mat-icon>
+          </mat-input-container>
           <div fxLayoutAlign="end start">
-            <button class="login-button" color="primary" type="submit" md-raised-button>{{'login.button.label'|translate}}</button>
+            <button class="login-button" color="primary" type="submit" mat-raised-button>{{'login.button.label'|translate}}</button>
           </div>
         </div>
       </form>
-    </md-card>
+    </mat-card>
   </div>
   <div fxFlex></div>
 </div>

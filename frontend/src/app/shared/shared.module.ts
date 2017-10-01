@@ -8,11 +8,11 @@ import { AuthenticationModule } from '../authentication/authentication.module';
 import { KeysPipe } from './keys.pipe';
 import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { MaterialModule, MdDialogModule } from '@angular/material';
+import { MatDialogModule } from '@angular/material';
 
 import {
-  MdTableModule, MdPaginatorModule, MdSortModule, MdInputModule, MdButtonModule, MdTabsModule,
-  MdSnackBarModule
+  MatTableModule, MatPaginatorModule, MatSortModule, MatInputModule, MatButtonModule, MatTabsModule,
+  MatSnackBarModule, MatSelectModule, MatSlideToggleModule, MatToolbarModule, MatIconModule
 } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
 
@@ -25,16 +25,19 @@ import { CdkTableModule } from '@angular/cdk/table';
     TranslateModule,
     AuthenticationModule,
     FlexLayoutModule,
-    MdDialogModule,
-    MaterialModule,
-    MdTableModule,
-    MdPaginatorModule,
-    MdSortModule,
-    MdInputModule,
+    MatDialogModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatInputModule,
     CdkTableModule,
-    MdButtonModule,
-    MdTabsModule,
-    MdSnackBarModule
+    MatButtonModule,
+    MatTabsModule,
+    MatSnackBarModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+    MatToolbarModule,
+    MatIconModule
   ],
   declarations: [
     KeysPipe,
@@ -49,14 +52,17 @@ import { CdkTableModule } from '@angular/cdk/table';
     AuthenticationModule,
     KeysPipe,
     FlexLayoutModule,
-    MdDialogModule,
-    MaterialModule,
-    MdTableModule,
-    MdPaginatorModule,
-    MdSortModule,
-    MdInputModule,
+    MatDialogModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatInputModule,
     CdkTableModule,
-    MdButtonModule
+    MatButtonModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+    MatToolbarModule,
+    MatIconModule
   ],
   entryComponents: [
     ConfirmModalComponent

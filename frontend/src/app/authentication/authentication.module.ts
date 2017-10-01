@@ -14,7 +14,7 @@ import { AuthorizationService } from './authorization.service';
 import { authorizationHttpFactory } from './authorization-http';
 import { HasRightDirective } from './has-right.directive';
 import { USERS_GUARD_PROVIDERS } from './guards';
-import { MdButtonModule, MdCardModule, MdInputModule, MdIconModule } from '@angular/material';
+import { MatButtonModule, MatCardModule, MatInputModule, MatIconModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
@@ -24,11 +24,11 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     ReactiveFormsModule,
     RouterModule,
     TranslateModule,
-    MdCardModule,
+    MatCardModule,
     FlexLayoutModule,
-    MdInputModule,
-    MdButtonModule,
-    MdIconModule
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule
   ],
   declarations: [
     HasRightDirective,

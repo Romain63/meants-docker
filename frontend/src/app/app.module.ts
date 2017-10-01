@@ -9,7 +9,7 @@ import { CoreModule } from './core/core.module';
 import { LayoutModule } from './layout/layout.module';
 import { environment } from '../environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from '@angular/material';
+import { NoConflictStyleCompatibilityMode  } from '@angular/material'
 
 @NgModule({
   declarations: [
@@ -19,10 +19,10 @@ import { MaterialModule } from '@angular/material';
     BrowserModule,
     FormsModule,
     BrowserAnimationsModule,
-    MaterialModule,
     CoreModule,
     LayoutModule,
     AppRoutingModule,
+    NoConflictStyleCompatibilityMode
   ],
   providers: [],
   bootstrap: [AppComponent]

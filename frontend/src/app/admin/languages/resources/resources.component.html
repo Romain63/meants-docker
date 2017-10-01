@@ -1,40 +1,40 @@
-<md-toolbar class="toolbar-tabbed">
+<mat-toolbar class="toolbar-tabbed">
   <h3 [innerHTML]="'admin.resources.title'|translate"></h3>
-</md-toolbar>
+</mat-toolbar>
 <div class="content-wrapper">
-  <md-toolbar>
-    <md-input-container floatPlaceholder="never">
-      <input mdInput #filter placeholder="{{'admin.resources.search.placeholder'|translate}}">
-    </md-input-container>
+  <mat-toolbar>
+    <mat-input-container floatPlaceholder="never">
+      <input matInput #filter placeholder="{{'admin.resources.search.placeholder'|translate}}">
+    </mat-input-container>
     <div fxFlex></div>
-    <button md-raised-button color="primary" (click)='openDialog()' *appHasRight="'R_API_LANGUAGE_RESOURCE_C'"><md-icon>add_circle</md-icon>&emsp;{{'admin.resources.new'|translate}}</button>
-  </md-toolbar>
-  <div class="col-md-12">
-    <md-table #table [dataSource]="dataSource" mdSort>
+    <button mat-raised-button color="primary" (click)='openDialog()' *appHasRight="'R_API_LANGUAGE_RESOURCE_C'"><mat-icon>add_circle</mat-icon>&emsp;{{'admin.resources.new'|translate}}</button>
+  </mat-toolbar>
+  <div class="col-mat-12">
+    <mat-table #table [dataSource]="dataSource" matSort>
       <ng-container cdkColumnDef="key">
-        <md-header-cell *cdkHeaderCellDef md-sort-header><span [innerHTML]="'admin.resources.header.key'|translate"></span></md-header-cell>
-        <md-cell *cdkCellDef="let row"> {{row.key}} </md-cell>
+        <mat-header-cell *cdkHeaderCellDef mat-sort-header><span [innerHTML]="'admin.resources.header.key'|translate"></span></mat-header-cell>
+        <mat-cell *cdkCellDef="let row"> {{row.key}} </mat-cell>
       </ng-container>
 
       <ng-container cdkColumnDef="value">
-        <md-header-cell *cdkHeaderCellDef md-sort-header><span [innerHTML]="'admin.resources.header.value'|translate"></span></md-header-cell>
-        <md-cell *cdkCellDef="let row"> {{row.value}} </md-cell>
+        <mat-header-cell *cdkHeaderCellDef mat-sort-header><span [innerHTML]="'admin.resources.header.value'|translate"></span></mat-header-cell>
+        <mat-cell *cdkCellDef="let row"> {{row.value}} </mat-cell>
       </ng-container>
 
       <ng-container cdkColumnDef="action">
-        <md-header-cell *cdkHeaderCellDef><span [innerHTML]="'admin.resources.header.actions'|translate"></span></md-header-cell>
-        <md-cell *cdkCellDef="let row">
-          <button md-button class="cell-action-button" *appHasRight="'R_API_LANGUAGE_RESOURCE_U'" (click)='openDialog(row)'><md-icon>mode_edit</md-icon></button>
-          <button md-button class="cell-action-button" *appHasRight="'R_API_LANGUAGE_RESOURCE_D'" (click)="confirmDeleteContent($event, row)"><md-icon>delete</md-icon></button>
-        </md-cell>
+        <mat-header-cell *cdkHeaderCellDef><span [innerHTML]="'admin.resources.header.actions'|translate"></span></mat-header-cell>
+        <mat-cell *cdkCellDef="let row">
+          <button mat-button class="cell-action-button" *appHasRight="'R_API_LANGUAGE_RESOURCE_U'" (click)='openDialog(row)'><mat-icon>mode_edit</mat-icon></button>
+          <button mat-button class="cell-action-button" *appHasRight="'R_API_LANGUAGE_RESOURCE_D'" (click)="confirmDeleteContent($event, row)"><mat-icon>delete</mat-icon></button>
+        </mat-cell>
       </ng-container>
 
       <!-- Header and Row Declarations -->
-      <md-header-row *cdkHeaderRowDef="['key', 'value', 'action']"></md-header-row>
-      <md-row *cdkRowDef="let row; columns: ['key', 'value', 'action']"></md-row>
-    </md-table>
+      <mat-header-row *cdkHeaderRowDef="['key', 'value', 'action']"></mat-header-row>
+      <mat-row *cdkRowDef="let row; columns: ['key', 'value', 'action']"></mat-row>
+    </mat-table>
 
-    <md-paginator #paginator [length]="dataSource.totalLength" [pageIndex]="0" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]">
-    </md-paginator>
+    <mat-paginator #paginator [length]="dataSource.totalLength" [pageIndex]="0" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]">
+    </mat-paginator>
   </div>
 </div>

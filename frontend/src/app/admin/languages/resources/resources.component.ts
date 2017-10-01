@@ -10,7 +10,7 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
-import { MdDialog, MdDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 
 import { LanguageModel } from '../language-model';
 import { ResourceModel } from '../resource-model';
@@ -65,8 +65,8 @@ export class ResourcesComponent extends BaseListComponent<ResourceModel, ListFor
     private route: ActivatedRoute,
     private router: Router,
     private service: LanguagesService,
-    public dialog: MdDialog,
-    public confirmDialog: MdDialog,
+    public dialog: MatDialog,
+    public confirmDialog: MatDialog,
     formBuilder: FormBuilder,
     private translateService: TranslateService
   ) {

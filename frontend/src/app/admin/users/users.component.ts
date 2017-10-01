@@ -13,7 +13,7 @@ import { UserModel } from './user-model';
 import { environment } from '../../../environments/environment';
 import { BaseListComponent } from '../../core/base-list-component';
 import { ListFormParams } from '../../core/list-form-params';
-import { MdDialog, MdDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-users',
@@ -32,7 +32,7 @@ export class UsersComponent extends BaseListComponent<UserModel, ListFormParams>
   constructor(
     private usersService: UsersService,
     formBuilder: FormBuilder,
-    public confirmDialog: MdDialog,
+    public confirmDialog: MatDialog,
   ) {
     super(formBuilder, confirmDialog);
   }

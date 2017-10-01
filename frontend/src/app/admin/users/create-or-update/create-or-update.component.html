@@ -1,66 +1,66 @@
 <div class="content-wrapper">
   <form [formGroup]="form" novalidate (submit)="save($event)" fxLayout="column" fxLayoutGap="30px">
-    <md-toolbar>
-      <button md-raised-button color="primary" type="submit" fxFlex="20" fxFlexOffset="80">{{'admin.users.model.' + action |translate}}</button >
-            </md-toolbar>
+    <mat-toolbar>
+      <button mat-raised-button color="primary" type="submit" fxFlex="20" fxFlexOffset="80">{{'admin.users.model.' + action |translate}}</button >
+            </mat-toolbar>
     
         <div class="form-content">
     <input type="hidden" formControlName="id" />
 
-    <md-input-container fxLayout="row">
-      <input mdInput placeholder="{{'admin.users.model.email'|translate}}" [formControl]="form.controls.email">
-      <md-error *ngIf="form.controls.email.hasError('required')">
+    <mat-input-container fxLayout="row">
+      <input matInput placeholder="{{'admin.users.model.email'|translate}}" [formControl]="form.controls.email">
+      <mat-error *ngIf="form.controls.email.hasError('required')">
         {{'admin.users.model.email.required'|translate}}
-      </md-error>
-      <md-error *ngIf="form.controls.email.hasError('pattern')">
+      </mat-error>
+      <mat-error *ngIf="form.controls.email.hasError('pattern')">
         {{'admin.users.model.email.pattern'|translate}}
-      </md-error>
-    </md-input-container>
+      </mat-error>
+    </mat-input-container>
     <div fxLayout="row" *ngIf="form.controls.id.value === ''" formGroupName="passwordGroup">
-      <md-input-container fxFlex="45">
-        <input type="password" mdInput placeholder="{{'admin.users.model.password'|translate}}" [formControl]="form.controls.passwordGroup.controls.password">
-        <md-error *ngIf="form.controls.passwordGroup.controls.password.hasError('required')">
+      <mat-input-container fxFlex="45">
+        <input type="password" matInput placeholder="{{'admin.users.model.password'|translate}}" [formControl]="form.controls.passwordGroup.controls.password">
+        <mat-error *ngIf="form.controls.passwordGroup.controls.password.hasError('required')">
           {{'admin.users.model.password.required'|translate}}
-        </md-error>
-        <md-error *ngIf="form.controls.passwordGroup.controls.password.hasError('minlength')">
+        </mat-error>
+        <mat-error *ngIf="form.controls.passwordGroup.controls.password.hasError('minlength')">
           {{'admin.users.model.password.minLength'|translate}}
-        </md-error>
-      </md-input-container>
-      <md-input-container fxFlex="45" fxFlexOffset="5">
-        <input type="password" mdInput placeholder="{{'admin.users.model.passwordConfirm'|translate}}" [formControl]="form.controls.passwordGroup.controls.passwordConfirm">
-        <md-error *ngIf="form.controls.passwordGroup.controls.passwordConfirm.hasError('required')">
+        </mat-error>
+      </mat-input-container>
+      <mat-input-container fxFlex="45" fxFlexOffset="5">
+        <input type="password" matInput placeholder="{{'admin.users.model.passwordConfirm'|translate}}" [formControl]="form.controls.passwordGroup.controls.passwordConfirm">
+        <mat-error *ngIf="form.controls.passwordGroup.controls.passwordConfirm.hasError('required')">
           {{'admin.users.model.password.required'|translate}}
-        </md-error>
-        <md-error *ngIf="form.controls.passwordGroup.controls.passwordConfirm.hasError('minlength')">
+        </mat-error>
+        <mat-error *ngIf="form.controls.passwordGroup.controls.passwordConfirm.hasError('minlength')">
           {{'admin.users.model.password.minLength'|translate}}
-        </md-error>
-      </md-input-container>
-      <md-error *ngIf="isSubmitted && !form.controls.passwordGroup.valid">
+        </mat-error>
+      </mat-input-container>
+      <mat-error *ngIf="isSubmitted && !form.controls.passwordGroup.valid">
         {{'admin.users.model.passwordGroup.areEquals'|translate}}
-      </md-error>
+      </mat-error>
     </div>
 
-    <md-select fxLayout="row" placeholder="{{'admin.users.model.civilite'|translate}}" required="true" [formControl]="form.controls.civility">
-      <md-option *ngFor="let civility of civilities; let i = index" [value]="i">{{civility | translate}}</md-option>
-    </md-select>
+    <mat-select fxLayout="row" placeholder="{{'admin.users.model.civilite'|translate}}" required="true" [formControl]="form.controls.civility">
+      <mat-option *ngFor="let civility of civilities; let i = index" [value]="i">{{civility | translate}}</mat-option>
+    </mat-select>
     <div fxLayout="row">
-      <md-input-container fxFlex="45">
-        <input mdInput placeholder="{{'admin.users.model.firstname'|translate}}" [formControl]="form.controls.firstname">
-        <md-error *ngIf="form.controls.firstname.hasError('required')">
+      <mat-input-container fxFlex="45">
+        <input matInput placeholder="{{'admin.users.model.firstname'|translate}}" [formControl]="form.controls.firstname">
+        <mat-error *ngIf="form.controls.firstname.hasError('required')">
           {{'admin.users.model.firstname.required'|translate}}
-        </md-error>
-      </md-input-container>
+        </mat-error>
+      </mat-input-container>
 
-      <md-input-container fxFlex="45" fxFlexOffset="5">
-        <input mdInput placeholder="{{'admin.users.model.lastname'|translate}}" [formControl]="form.controls.lastname">
-        <md-error *ngIf="form.controls.lastname.hasError('required')">
+      <mat-input-container fxFlex="45" fxFlexOffset="5">
+        <input matInput placeholder="{{'admin.users.model.lastname'|translate}}" [formControl]="form.controls.lastname">
+        <mat-error *ngIf="form.controls.lastname.hasError('required')">
           {{'admin.users.model.lastname.required'|translate}}
-        </md-error>
-      </md-input-container>
+        </mat-error>
+      </mat-input-container>
     </div>
 
     <div fxLayout="row">
-      <md-slide-toggle [formControl]="form.controls.isSystem">{{'admin.users.model.isSystem'|translate}}</md-slide-toggle>
+      <mat-slide-toggle [formControl]="form.controls.isSystem">{{'admin.users.model.isSystem'|translate}}</mat-slide-toggle>
     </div>
   </div>
 </form>

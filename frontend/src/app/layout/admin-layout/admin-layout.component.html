@@ -1,65 +1,65 @@
 <div fxLayout="column" id="main-container">
     <!-- Toolbar -->
-    <md-toolbar color="primary" class="app-toolbar">
-        <button md-button class="md-icon-button" aria-label="Settings" ng-disabled="true" (click)="sidenav.toggle()">
-        <md-icon>menu</md-icon>
+    <mat-toolbar color="primary" class="app-toolbar">
+        <button mat-button class="mat-icon-button" aria-label="Settings" ng-disabled="true" (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
     </button>
-        <h2 flex md-truncate [routerLink]="['/admin']">MeanTS</h2>
-    </md-toolbar>
+        <h2 flex mat-truncate [routerLink]="['/admin']">MeanTS</h2>
+    </mat-toolbar>
     <!-- / Toolbar -->
 
     <!-- / Page -->
-    <md-sidenav-container class="md-container" fxFlex>
+    <mat-sidenav-container class="mat-container" fxFlex>
         <!-- Sidenav -->
-        <md-sidenav mode="side" opened="true" #sidenav class="example-sidenav">
+        <mat-sidenav mode="side" opened="true" #sidenav class="example-sidenav">
             <!-- Top bloc -->
             <div class="user-info" fxLayout="column" fxLayoutAlign="center center">
                 <div>
                     <img src="/assets/img/avatar.png" class="img-avatar" alt="admin@bootstrapmaster.com" />
                     <div class="user-info-content" fxLayout="row" fxLayoutAlign="start center">
                         <div fxFlex> {{username}} </div>
-                        <button md-icon-button [mdMenuTriggerFor]="menu"><md-icon>arrow_drop_down</md-icon></button>
+                        <!-- <button mat-icon-button [menuTriggerFor]="menu"><mat-icon>arrow_drop_down</mat-icon></button> -->
                     </div>
                 </div>
             </div>
             <!-- / Top bloc -->
             <!-- User parameters menu -->
-            <md-menu #menu="mdMenu">
-                <button md-menu-item [routerLink]="['/admin/users/', userModel.id, 'update']">
-                    <md-icon>perm_identity</md-icon>
+            <!-- <mat-menu #menu="matMenu">
+                <button mat-menu-item [routerLink]="['/admin/users/', userModel.id, 'update']">
+                    <mat-icon>perm_identity</mat-icon>
                     <span>Modifier le profil</span>
                 </button>
-                <button md-menu-item [routerLink]="['/admin/users/', userModel.id, 'password']">
-                    <md-icon>lock</md-icon>
-                    <span>Modifier le mdp</span>
+                <button mat-menu-item [routerLink]="['/admin/users/', userModel.id, 'password']">
+                    <mat-icon>lock</mat-icon>
+                    <span>Modifier le matp</span>
                 </button>
-                <button md-menu-item>
-                    <md-icon>build</md-icon>
+                <button mat-menu-item>
+                    <mat-icon>build</mat-icon>
                     <span>Paramètres</span>
                 </button>
-                <button md-menu-item class="logout-button" [routerLink]="['/logout']" routerLinkActive="active">
-                    <md-icon>exit_to_app</md-icon>
+                <button mat-menu-item class="logout-button" [routerLink]="['/logout']" routerLinkActive="active">
+                    <mat-icon>exit_to_app</mat-icon>
                     <span>Logout</span>
                 </button>
-            </md-menu>
+            </mat-menu> -->
             <!-- / User parameters menu -->
 
             <!-- Menu -->
-            <md-nav-list class="sidenav-list menu">
-                <md-list-item [routerLink]="['/admin']" routerLinkActive="active">
-                    <md-icon md-list-icon>home</md-icon>{{'admin.menu.overview' | translate }}
-                </md-list-item>
-                <h3 md-subheader>{{'admin.menu.title' | translate }}</h3>
-                <md-list-item [routerLink]="['/admin/users']" *appHasRight="'R_API_USER_R'" routerLinkActive="active">
-                    <md-icon md-list-icon>people</md-icon>{{'admin.menu.users' | translate }}
-                </md-list-item>
-                <md-list-item [routerLink]="['/admin/languages']" *appHasRight="'R_API_LANGUAGE_R'" routerLinkActive="active">
-                    <md-icon md-list-icon>flag</md-icon>{{'admin.menu.languages' | translate }}
-                </md-list-item>
-            </md-nav-list>
+            <mat-nav-list class="sidenav-list menu">
+                <mat-list-item [routerLink]="['/admin']" routerLinkActive="active">
+                    <mat-icon mat-list-icon>home</mat-icon>{{'admin.menu.overview' | translate }}
+                </mat-list-item>
+                <h3 mat-subheader>{{'admin.menu.title' | translate }}</h3>
+                <mat-list-item [routerLink]="['/admin/users']" *appHasRight="'R_API_USER_R'" routerLinkActive="active">
+                    <mat-icon mat-list-icon>people</mat-icon>{{'admin.menu.users' | translate }}
+                </mat-list-item>
+                <mat-list-item [routerLink]="['/admin/languages']" *appHasRight="'R_API_LANGUAGE_R'" routerLinkActive="active">
+                    <mat-icon mat-list-icon>flag</mat-icon>{{'admin.menu.languages' | translate }}
+                </mat-list-item>
+            </mat-nav-list>
             <!-- / Menu -->
 
-        </md-sidenav>
+        </mat-sidenav>
         <!-- Sidenav -->
 
         <!-- Content-->
@@ -74,6 +74,6 @@
         </div>
         <!-- / Content-->
 
-    </md-sidenav-container>
+    </mat-sidenav-container>
     <!-- / Page -->
 </div>

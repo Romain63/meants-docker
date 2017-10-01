@@ -1,51 +1,51 @@
-<md-toolbar>
+<mat-toolbar>
   <h3 [innerHTML]="'admin.languages.title'|translate"></h3>
-</md-toolbar>
+</mat-toolbar>
 <div class="content-wrapper">
 
-    <md-toolbar>
-        <md-input-container floatPlaceholder="never">
-            <input mdInput #filter placeholder="Filter users">
-        </md-input-container>
+    <mat-toolbar>
+        <mat-input-container floatPlaceholder="never">
+            <input matInput #filter placeholder="Filter users">
+        </mat-input-container>
         <div fxFlex></div>
-        <button md-raised-button color="primary" [routerLink]="['new']" *appHasRight="'R_API_LANGUAGE_C'">{{'admin.languages.new'|translate}}</button>
-      </md-toolbar>
+        <button mat-raised-button color="primary" [routerLink]="['new']" *appHasRight="'R_API_LANGUAGE_C'">{{'admin.languages.new'|translate}}</button>
+      </mat-toolbar>
 
-  <div class='clearfix col-md-6 col-sm-12'></div>
+  <div class='clearfix col-mat-6 col-sm-12'></div>
   <br />
-  <div class="col-md-12">
-    <md-table #table [dataSource]="dataSource" mdSort>
+  <div class="col-mat-12">
+    <mat-table #table [dataSource]="dataSource" matSort>
       <!-- User name Definition -->
       <ng-container cdkColumnDef="name">
-        <md-header-cell *cdkHeaderCellDef md-sort-header><span [innerHTML]="'admin.languages.header.name'|translate"></span></md-header-cell>
-        <md-cell *cdkCellDef="let row"> {{row.name}} </md-cell>
+        <mat-header-cell *cdkHeaderCellDef mat-sort-header><span [innerHTML]="'admin.languages.header.name'|translate"></span></mat-header-cell>
+        <mat-cell *cdkCellDef="let row"> {{row.name}} </mat-cell>
       </ng-container>
 
       <ng-container cdkColumnDef="culture">
-        <md-header-cell *cdkHeaderCellDef md-sort-header><span [innerHTML]="'admin.languages.header.culture'|translate"></span></md-header-cell>
-        <md-cell *cdkCellDef="let row"> {{row.culture}} </md-cell>
+        <mat-header-cell *cdkHeaderCellDef mat-sort-header><span [innerHTML]="'admin.languages.header.culture'|translate"></span></mat-header-cell>
+        <mat-cell *cdkCellDef="let row"> {{row.culture}} </mat-cell>
       </ng-container>
 
       <ng-container cdkColumnDef="flag">
-        <md-header-cell *cdkHeaderCellDef md-sort-header><span [innerHTML]="'admin.languages.header.flag'|translate"></span></md-header-cell>
-        <md-cell *cdkCellDef="let row"> {{row.flag}} </md-cell>
+        <mat-header-cell *cdkHeaderCellDef mat-sort-header><span [innerHTML]="'admin.languages.header.flag'|translate"></span></mat-header-cell>
+        <mat-cell *cdkCellDef="let row"> {{row.flag}} </mat-cell>
       </ng-container>
 
       <ng-container cdkColumnDef="action">
-        <md-header-cell *cdkHeaderCellDef><span [innerHTML]="'admin.languages.header.actions'|translate"></span></md-header-cell>
-        <md-cell *cdkCellDef="let row">
-          <button md-button *appHasRight="'R_API_LANGUAGE_C'" class="cell-action-button" [routerLink]="[row.id, 'update']"><md-icon>mode_edit</md-icon></button>
-          <button md-button *appHasRight="'R_API_LANGUAGE_RESOURCE_R'" class="cell-action-button" [routerLink]="[row.id, 'resources']"><md-icon>language</md-icon></button>
-          <button md-button *appHasRight="'R_API_LANGUAGE_D'" class="cell-action-button" (click)="confirmDeleteContent($event, row)"><md-icon>delete</md-icon></button>
-        </md-cell>
+        <mat-header-cell *cdkHeaderCellDef><span [innerHTML]="'admin.languages.header.actions'|translate"></span></mat-header-cell>
+        <mat-cell *cdkCellDef="let row">
+          <button mat-button *appHasRight="'R_API_LANGUAGE_C'" class="cell-action-button" [routerLink]="[row.id, 'update']"><mat-icon>mode_edit</mat-icon></button>
+          <button mat-button *appHasRight="'R_API_LANGUAGE_RESOURCE_R'" class="cell-action-button" [routerLink]="[row.id, 'resources']"><mat-icon>language</mat-icon></button>
+          <button mat-button *appHasRight="'R_API_LANGUAGE_D'" class="cell-action-button" (click)="confirmDeleteContent($event, row)"><mat-icon>delete</mat-icon></button>
+        </mat-cell>
       </ng-container>
 
       <!-- Header and Row Declarations -->
-      <md-header-row *cdkHeaderRowDef="['name', 'culture', 'flag', 'action']"></md-header-row>
-      <md-row *cdkRowDef="let row; columns: ['name', 'culture', 'flag', 'action']"></md-row>
-    </md-table>
+      <mat-header-row *cdkHeaderRowDef="['name', 'culture', 'flag', 'action']"></mat-header-row>
+      <mat-row *cdkRowDef="let row; columns: ['name', 'culture', 'flag', 'action']"></mat-row>
+    </mat-table>
 
-    <md-paginator #paginator [length]="dataSource.totalLength" [pageIndex]="0" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]">
-    </md-paginator>
+    <mat-paginator #paginator [length]="dataSource.totalLength" [pageIndex]="0" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]">
+    </mat-paginator>
   </div>
 </div>

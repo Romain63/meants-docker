@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
 import { Subscription } from 'rxjs/Subscription';
 import { DataSource } from '@angular/cdk/table';
-import { MdPaginator, MdSort } from '@angular/material';
-import { MdDialog } from '@angular/material';
+import { MatPaginator, MatSort } from '@angular/material';
+import { MatDialog } from '@angular/material';
 
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/debounceTime';
@@ -35,7 +35,7 @@ export class LanguagesComponent extends BaseListComponent<LanguageModel, ListFor
   constructor(
     private languagesService: LanguagesService,
     formBuilder: FormBuilder,
-    public confirmDialog: MdDialog,
+    public confirmDialog: MatDialog,
   ) {
     super(formBuilder, confirmDialog);
   }

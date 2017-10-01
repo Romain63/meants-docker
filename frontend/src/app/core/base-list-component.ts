@@ -4,12 +4,12 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { BehaviorSubject, Subject } from 'rxjs/Rx';
 import { DataSource } from '@angular/cdk/table';
-import { MdPaginator, MdSort } from '@angular/material';
+import { MatPaginator, MatSort } from '@angular/material';
 
 import { environment } from '../../environments/environment';
 import { ConfirmModalComponent } from '../shared/confirm-modal/confirm-modal.component';
 import { ListFormParams } from './list-form-params';
-import { MdDialog, MdDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 
 export class TotalModel {
     /** Gets or sets the total number of elements. @property {number} */
@@ -23,10 +23,10 @@ export class TotalModel {
 export abstract class BaseListComponent<TEntity, TListFormParams extends ListFormParams> implements OnInit, OnDestroy {
 
     /** Table view paginator */
-    @ViewChild(MdPaginator) paginator: MdPaginator;
+    @ViewChild(MatPaginator) paginator: MatPaginator;
 
     /** Handle sorting on table view */
-    @ViewChild(MdSort) sort: MdSort;
+    @ViewChild(MatSort) sort: MatSort;
 
     /** To filter the data list */
     @ViewChild('filter') filter: ElementRef;
@@ -49,7 +49,7 @@ export abstract class BaseListComponent<TEntity, TListFormParams extends ListFor
      */
     constructor(
         protected formBuilder: FormBuilder,
-        public confirmDialog: MdDialog,
+        public confirmDialog: MatDialog,
     ) {
     }
 
@@ -163,7 +163,7 @@ export class CustomDataSource<TEntity, TListFormParams extends ListFormParams> e
      * @param _paginator List paginator component
      * @param _sort List sort component
      */
-    constructor(private _component: BaseListComponent<TEntity, TListFormParams>, private _paginator: MdPaginator, public _sort: MdSort) {
+    constructor(private _component: BaseListComponent<TEntity, TListFormParams>, private _paginator: MatPaginator, public _sort: MatSort) {
         super();
     }
 
@@ -172,7 +172,7 @@ export class CustomDataSource<TEntity, TListFormParams extends ListFormParams> e
      */
     connect(): Observable<TEntity[]> {
         const displayDataChanges = [
-            this._sort.mdSortChange,
+            this._sort.sortChange,
             this._paginator.page,
             this._filterChange
         ];

@@ -1,7 +1,7 @@
-<h2 md-dialog-title [innerHTML]="titleCode|translate"></h2>
-<md-dialog-content>{{descriptionCode|translate}}</md-dialog-content>
-<md-dialog-actions>
-  <button md-button md-dialog-close>{{cancelCode|translate}}</button>
+<h2 mat-dialog-title [innerHTML]="titleCode|translate"></h2>
+<mat-dialog-content>{{descriptionCode|translate}}</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>{{cancelCode|translate}}</button>
   <!-- Can optionally provide a result for the closing dialog. -->
-  <button md-button [md-dialog-close]="true">{{closeCode|translate}}</button>
-</md-dialog-actions>
+  <button mat-button [mat-dialog-close]="true">{{closeCode|translate}}</button>
+</mat-dialog-actions>

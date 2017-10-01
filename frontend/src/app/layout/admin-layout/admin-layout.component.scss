@@ -11,7 +11,7 @@ body {
   position: relative;
   z-index: 10;
   background-color:#083045!important;
-  .md-icon-button.mat-button{
+  .mat-icon-button.mat-button{
     min-width: 0;
     padding:0;
     margin-right: 10px;
@@ -30,7 +30,7 @@ body {
   padding-top: 0px;
 }
 
-md-nav-list.menu{
+mat-nav-list.menu{
   h3{
     color: rgba(0,0,0,0.38);
     font-size: 12px;
@@ -39,7 +39,7 @@ md-nav-list.menu{
     text-transform: uppercase;
     margin:0;
   }
-  md-list-item{
+  mat-list-item{
     color: rgba(0,0,0,0.54) !important;
     font-size: 14px !important;
     font-weight: 500 !important;

@@ -49,7 +49,7 @@ export class AuthorizationHttp extends AuthHttp {
 export function authorizationHttpFactory(authorizationService: AuthorizationService, http: Http) {
     return new AuthorizationHttp(authorizationService, http, {
         globalHeaders: [{ 'Accept': 'application/json' }],
-        headerPrefix: 'JWT',
+        headerPrefix: 'Bearer',
         tokenGetter: (() => authorizationService.token)
     });
 }

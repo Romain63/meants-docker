@@ -1,5 +1,27 @@
-<div class="animated fadeIn">
-  <p>
-    admin works!
-  </p>
+<mat-card class="overview" fxLayout="column" fxLayoutAlign="center center">
+  <h2> Welcome in MeanTS ! </h2>
+</mat-card>
+
+<div class="animated fadeIn dashboard-container">
+    <mat-card class="dashboard-card" *appHasRight="'R_API_USER_R'">
+      <img mat-card-image src="/assets/img/dashboard/users.png">
+      <mat-card-content>
+        <h2>Gestion des utilisateurs</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec rhoncus ac nisi vitae consectetur. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+      </mat-card-content>
+      <mat-card-actions>
+          <button mat-button [routerLink]="['/admin/users']">GO</button>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="dashboard-card" *appHasRight="'R_API_LANGUAGE_R'">
+      <img mat-card-image src="/assets/img/dashboard/languages.png">
+      <mat-card-content>
+        <h2>Gestion des langues</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec rhoncus ac nisi vitae consectetur. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button [routerLink]="['/admin/languages']">GO</button>
+      </mat-card-actions>
+    </mat-card>
 </div>

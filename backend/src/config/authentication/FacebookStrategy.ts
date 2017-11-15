@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as config from 'config';
 import * as passport from 'passport';
-import { Strategy, IStrategyOption, Profile } from 'passport-facebook';
+import { Strategy, StrategyOption, Profile } from 'passport-facebook';
 import { Container } from 'typedi';
 
 import { UserModel, UsersService } from '../../users/UsersService';
@@ -11,7 +11,7 @@ const opts = {
   clientID: config.get('facebook.clientID'),
   clientSecret: config.get('facebook.clientSecret'),
   callbackURL: config.get('facebook.callbackURL') // allows us to pass back the entire request to the callback
-} as IStrategyOption;
+} as StrategyOption;
 
 async function verify(accessToken: string, refreshToken: string, profile: Profile, done: (error: any, user?: any, info?: any) => void) {
   const usersService = Container.get(UsersService);

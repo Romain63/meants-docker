@@ -10,7 +10,7 @@ import { UserModel, UsersService } from '../../users/UsersService';
 import { UnauthorizedError } from '../../errors';
 
 const opts = {
-  jwtFromRequest: ExtractJwt.fromAuthHeader(),
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: config.get('auth.jwt_secret').toString()
 };
 

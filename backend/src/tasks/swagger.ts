@@ -27,4 +27,6 @@ const options = {
 };
 
 const spec = swaggerJSDoc(options);
-fs.writeFile('./dist/spec.json', JSON.stringify(spec, null, '\t'));
+fs.writeFile('./dist/spec.json', JSON.stringify(spec, null, '\t'),(err) => {
+  if (err) throw err;
+});

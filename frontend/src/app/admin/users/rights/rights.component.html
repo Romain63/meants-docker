@@ -1,18 +1,24 @@
 <mat-toolbar>
   <h3 [innerHTML]="'users.rights.title'|translate"></h3>
 </mat-toolbar>
-<div class="content">
-  <mat-grid-list cols="4" rowHeight="180px">
-    <mat-grid-tile *ngFor="let key of rights | appKeys">
-      <mat-grid-tile-header>{{ key }}</mat-grid-tile-header>
-      <div class="tile-content" fxLayout="column">
-        <mat-slide-toggle *ngFor="let right of rights[key]" id="{{right}}" [checked]="hasRight(right)" (change)="toggleRight(right)">
-          {{right}}
-        </mat-slide-toggle>
-      </div>
-    </mat-grid-tile>
-  </mat-grid-list>
+<div class="animated fadeIn dashboard-container">
+  <mat-card class="dashboard-card" *ngFor="let key of rights | appKeys">
+      <mat-toolbar>
+          {{ key }}
+      </mat-toolbar>
+      <mat-card-content>
+          <div class="tile-content" fxLayout="column">
+              <mat-slide-toggle *ngFor="let right of rights[key]" id="{{right}}" [checked]="hasRight(right)" (change)="toggleRight(right)">
+                  {{right}}
+              </mat-slide-toggle>
+          </div>
+      </mat-card-content>
+  </mat-card>
+</div>
+<div fxlayout="row">
+  <div fxFlex></div>
   <button mat-raised-button type="button" (click)="save()">
-    {{'users.rights.save' |translate}}
-  </button>
+              {{'users.rights.save' |translate}}
+      </button>
+  <div fxFlex=30></div>
 </div>

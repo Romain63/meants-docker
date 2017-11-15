@@ -28,3 +28,21 @@ mongorestore --host localhost:27018  --gzip --archive=mongodb-dump-00.agz
 
 - go to [http://localhost:8080](http://localhost:8080) in your browser
 - use account admin/admin
+ 
+
+## Devlopment
+Frontend :
+Just got some problems with latest stable node version (8.9.1)
+Solve :
+- Downgrade npm version to 5.2.0 : npm install -g npm@5.2.0
+- Clear npm cache : npm cache clear --force
+- Delete node_modules dir and run npm install again
+Backend :
+On npm install if you got a python missing error run :
+```bash
+# Install the windows tools 
+npm install --global --production windows-build-tools
+npm install --global node-gyp
+# Set the python env var required by node build
+setx PYTHON "%USERPROFILE%\.windows-build-tools\python27\python.exe"
+```

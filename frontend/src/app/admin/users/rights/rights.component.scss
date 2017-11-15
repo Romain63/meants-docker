@@ -1,12 +1,29 @@
-.rights-card {
-    width: 400px;
-    height: 100%;
+.dashboard-container {
+    max-width: 1300px;
+    margin:0 auto;
+
+    .dashboard-card{
+        display: inline-block;
+        vertical-align: top;
+        min-height: 230px;
+        mat-card-content{
+            margin-bottom:0;   
+        }
+        button{
+            min-width: 0;
+        }
+        width:300px;
+        margin: 10px;
+    }
+    .mat-card {
+        padding: 0px;
+        .mat-toolbar {
+            background-color : whitesmoke!important;
+        }
+        
+        .mat-card-content {
+            padding: 15px;
+        }
+    }
 }
 
-.content {
-    padding: 20px;   
-}
-
-.tile-content {
-    margin-top: 30px;
-}

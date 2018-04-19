@@ -34,7 +34,7 @@ export class Helpers {
    * @param {UserModel} user The current user.
    * @returns {string[]}
    */
-  static getUserRights(user: UserModel) {
+  static getUserRights(user: Express.User) {
     if (!user.isSystem) {
       return user.rights;
     }

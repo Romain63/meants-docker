@@ -1,17 +1,6 @@
 <div class="full-height" fxLayout="column">
   <div fxFlex></div>
   <div fxLayout="column" fxLayoutAlign="start center">
-
-    <div class="title" fxLayout="row" fxLayoutAlign="start center" fxFlex="noshrink">
-      <div>
-        <img class="login-logo" src="/assets/img/logo.png" />
-      </div>
-      <div>
-        <h1>MARS</h1>
-        <h3>Modis Augmented Reality System</h3>
-      </div>
-    </div>
-
     <mat-card class="login-card">
       <form class="form-signin" [formGroup]="loginForm" role="form" novalidate (submit)="login($event)">
         <div fxLayout="column">

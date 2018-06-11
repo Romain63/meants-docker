@@ -23,7 +23,7 @@ cd meants-docker
 docker-compose up
 
 # Restore MongoDB dump : ./mongodb-dump-00.agz
-mongorestore --host localhost:27018  --gzip --archive=mongodb-dump-00.agz
+mongorestore --host localhost:27017  --gzip --archive=mongodb-dump-00.agz
 ```
 
 - go to [http://localhost:8080](http://localhost:8080) in your browser

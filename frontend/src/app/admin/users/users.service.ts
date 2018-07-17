@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Headers, URLSearchParams } from '@angular/http';
-import { AuthHttp } from 'angular2-jwt';
-import { Observable } from 'rxjs/Observable';
 
 import { environment } from '../../../environments/environment';
 import { ListFilterParams } from '../../shared/models/list-filter-params';
 import { UserModel } from './user-model';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { TotalModel } from '../../core/base-list-component';
 
 /**
  * Represents the user list filter.
@@ -22,7 +23,7 @@ export class UserFilter extends ListFilterParams {
 @Injectable()
 export class UsersService {
   /** POST/PUT headers */
-  private headers = new Headers({ 'Content-Type': 'application/json' });
+  private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
   /** Gets the base api url @property {string} */
   private baseUrl = `${environment.apiUrlBase}api/`;
@@ -32,7 +33,7 @@ export class UsersService {
    * @constructor
    * @param {AuthHttp} http The authorized http service.
    */
-  constructor(private http: AuthHttp) { }
+  constructor(private http: HttpClient) { }
 
   /**
    * Gets the user list url params.
@@ -41,15 +42,15 @@ export class UsersService {
    * @returns {URLSearchParams}
    */
   getUrlParams(parameters: UserFilter) {
-    const params = new URLSearchParams();
+    let params = new HttpParams();
     if ((parameters.sort || '') !== '') {
-      params.set('sort', parameters.sort);
+      params = params.set('sort', parameters.sort);
     }
     if ((parameters.search || '') !== '') {
-      params.set('search', parameters.search);
+      params = params.set('search', parameters.search);
     }
-    params.set('page', parameters.page.toString());
-    params.set('limit', parameters.limit.toString());
+    params = params.set('page', parameters.page.toString());
+    params = params.set('limit', parameters.limit.toString());
     return params;
   }
 
@@ -61,7 +62,10 @@ export class UsersService {
    */
   all(parameters: UserFilter) {
     const params = this.getUrlParams(parameters);
-    return this.http.get(`${this.baseUrl}users`, { search: params }).map(response => response.json() as UserModel[]);
+    const headers = new HttpHeaders();
+    return this.http.get(`${this.baseUrl}users`, { headers, params }).pipe(
+      map(response => response as UserModel[])
+    );
   }
 
   /**
@@ -71,12 +75,14 @@ export class UsersService {
    * @return {Observable<{ count: number }>}
    */
   allCount(search: string) {
-    const params = new URLSearchParams();
+    const params = new HttpParams();
     if ((search || '') !== '') {
       params.set('search', search);
     }
-
-    return this.http.get(`${this.baseUrl}users/count`, { search: params }).map(response => response.json());
+    const headers = new HttpHeaders();
+    return this.http.get(`${this.baseUrl}users/count`, { headers: headers, params: params }).pipe(
+      map(response => response as TotalModel)
+    );
   }
 
   /**
@@ -86,7 +92,9 @@ export class UsersService {
    * @returns {Observable<UserModel>}
    */
   getById(userId: string) {
-    return this.http.get(`${this.baseUrl}users/${userId}`).map(response => response.json() as UserModel);
+    return this.http.get(`${this.baseUrl}users/${userId}`).pipe(
+      map(response => response as UserModel)
+    );
   }
 
   /**
@@ -96,8 +104,9 @@ export class UsersService {
    * @return {Observable<UserModel>}
    */
   create(data: UserModel) {
-    return this.http.post(`${this.baseUrl}users`, JSON.stringify(data), { headers: this.headers })
-      .map(response => response.json() as UserModel);
+    return this.http.post(`${this.baseUrl}users`, JSON.stringify(data), { headers: this.headers }).pipe(
+      map(response => response as UserModel)
+    )
   }
 
   /**
@@ -108,8 +117,9 @@ export class UsersService {
    */
   update(data: UserModel) {
     const id = data.id;
-    return this.http.put(`${this.baseUrl}users/${id}`, JSON.stringify(data), { headers: this.headers })
-      .map(response => response.json() as UserModel);
+    return this.http.put(`${this.baseUrl}users/${id}`, JSON.stringify(data), { headers: this.headers }).pipe(
+      map(response => response as UserModel)
+    );
   }
 
   /**
@@ -118,8 +128,9 @@ export class UsersService {
    * @param {string} id The user identifier to remove.
    */
   remove(id: string) {
-    return this.http.delete(`${this.baseUrl}users/${id}`, { headers: this.headers })
-      .map(response => response.json());
+    return this.http.delete(`${this.baseUrl}users/${id}`, { headers: this.headers }).pipe(
+      map(response => response)
+    );
   }
 
   /**
@@ -128,8 +139,9 @@ export class UsersService {
    * @returns {Observable<any>}
    */
   allRights() {
-    return this.http.get(`${this.baseUrl}users/rights`, { headers: this.headers })
-      .map(response => response.json());
+    return this.http.get(`${this.baseUrl}users/rights`, { headers: this.headers }).pipe(
+      map(response => response)
+    );
   }
 
   /**
@@ -138,8 +150,9 @@ export class UsersService {
    * @returns {Observable<string[]>}
    */
   userRights(id: string) {
-    return this.http.get(`${this.baseUrl}users/${id}/rights`, { headers: this.headers })
-      .map(response => response.json() as string[]);
+    return this.http.get(`${this.baseUrl}users/${id}/rights`, { headers: this.headers }).pipe(
+      map(response => response as string[])
+    );
   }
 
   /**
@@ -148,7 +161,9 @@ export class UsersService {
    * @returns {Observable<UserModel>}
    */
   getCurrentUser() {
-    return this.http.get(`${this.baseUrl}users/me`).map(response => response.json() as UserModel);
+    return this.http.get(`${this.baseUrl}users/me`).pipe(
+      map(response => response as UserModel)
+    );
   }
 
   /**
@@ -159,7 +174,8 @@ export class UsersService {
    * @returns {Observable<string[]>}
    */
   updateRights(id: string, data: string[]) {
-    return this.http.put(`${this.baseUrl}users/${id}/rights`, JSON.stringify(data), { headers: this.headers })
-      .map(response => response.json() as string[]);
+    return this.http.put(`${this.baseUrl}users/${id}/rights`, JSON.stringify(data), { headers: this.headers }).pipe(
+      map(response => response as string[])
+    )
   }
 }

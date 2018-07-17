@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AuthHttp } from 'angular2-jwt';
-import { Observable } from 'rxjs/Observable';
+import { HttpClient } from '@angular/common/http';
+import { of } from 'rxjs';
 
 export const LanguagesModel = [];
 for (let i = 0; i < 10; i++) {
@@ -14,9 +14,9 @@ for (let i = 0; i < 10; i++) {
 
 @Injectable()
 export class StubLanguagesService {
-    constructor(private http: AuthHttp) { }
+    constructor(private http: HttpClient) { }
 
     all(parameters?: any) {
-        return Observable.of(LanguagesModel);
+        return of(LanguagesModel);
     }
 }

@@ -4,6 +4,7 @@ ports:
 
 auth:
     jwt_secret: 'supersecret'
+    expiration_time: 120
 
 mongo:
     url: 'mongodb://localhost:27017/testDB'

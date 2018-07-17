@@ -6,12 +6,12 @@
       <div class="form-content" >
     <input type="hidden" formControlName="id" />
     <div fxLayout="column">
-      <mat-input-container fxFlex="33">
+      <mat-form-field fxFlex="33">
         <input matInput placeholder="{{'admin.languages.model.name'|translate}}" [formControl]="form.controls.name">
         <mat-error *ngIf="form.controls.name.hasError('required')">
           {{'admin.languages.model.name.required'|translate}}
         </mat-error>
-      </mat-input-container>
+      </mat-form-field>
 
       <mat-select fxFlex="33" placeholder="{{'admin.languages.model.culture'|translate}}" [formControl]="form.controls.culture"
         required="true">
@@ -21,12 +21,12 @@
         </mat-error>
       </mat-select>
 
-      <mat-input-container fxFlex="33">
+      <mat-form-field fxFlex="33">
         <input matInput placeholder="{{'admin.languages.model.flag'|translate}}" [formControl]="form.controls.flag">
         <mat-error *ngIf="form.controls.flag.hasError('required')">
           {{'admin.languages.model.flag.required'|translate}}
         </mat-error>
-      </mat-input-container>
+      </mat-form-field>
     </div>
   </div>
 </form>

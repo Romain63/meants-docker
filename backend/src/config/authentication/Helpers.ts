@@ -9,6 +9,7 @@ import { UserModel, UsersService } from '../../users/UsersService';
 import * as Rights from '../../core/Rights';
 
 const secret = config.get('auth.jwt_secret').toString();
+const expiration_time = parseInt(config.get('auth.expiration_time'));
 
 /**
  * Represents the helpers class.
@@ -59,7 +60,7 @@ export class Helpers {
         },
         secret,
         {
-          expiresIn: 120
+          expiresIn: expiration_time
         }
       );
       next();

@@ -1,15 +1,12 @@
 import { OnDestroy, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
-import { BehaviorSubject, Subject } from 'rxjs/Rx';
+import { FormBuilder } from '@angular/forms';
+import { Observable, BehaviorSubject, Subject, fromEvent, merge } from 'rxjs';
 import { DataSource } from '@angular/cdk/table';
 import { MatPaginator, MatSort } from '@angular/material';
-
-import { environment } from '../../environments/environment';
 import { ConfirmModalComponent } from '../shared/confirm-modal/confirm-modal.component';
 import { ListFormParams } from './list-form-params';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialog } from '@angular/material';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 export class TotalModel {
     /** Gets or sets the total number of elements. @property {number} */
@@ -60,10 +57,10 @@ export abstract class BaseListComponent<TEntity, TListFormParams extends ListFor
     ngOnInit() {
         this.dataSource = new CustomDataSource(this, this.paginator, this.sort);
         if (this.filter !== undefined) {
-            Observable.fromEvent(this.filter.nativeElement, 'keyup')
-                .debounceTime(150)
-                .distinctUntilChanged()
-                .subscribe(() => {
+            fromEvent(this.filter.nativeElement, 'keyup').pipe(
+                debounceTime(150),
+                distinctUntilChanged()
+            ).subscribe(() => {
                     if (!this.dataSource) { return; }
                     this.dataSource.filter = this.filter.nativeElement.value;
                 });
@@ -187,7 +184,7 @@ export class CustomDataSource<TEntity, TListFormParams extends ListFormParams> e
             const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
             return data.splice(startIndex, this._paginator.pageSize);
         });*/
-        Observable.merge(...displayDataChanges).subscribe((d) => {
+        merge(...displayDataChanges).subscribe((d) => {
             if (d['active'] !== undefined && d['direction'] !== undefined && d['active'] !== '' && d['direction'] !== '') {
                 this.searchFilter.sort = d['active'] + ':' + d['direction'];
             }
@@ -208,7 +205,7 @@ export class CustomDataSource<TEntity, TListFormParams extends ListFormParams> e
         if (!this.subject.isStopped) {
             this.getData(this.searchFilter);
         }
-        return Observable.merge(this.subject);
+        return merge(this.subject);
     }
 
     /**

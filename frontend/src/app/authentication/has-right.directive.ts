@@ -1,6 +1,6 @@
 import { Directive, Input, TemplateRef, ViewContainerRef, OnDestroy, SimpleChanges, OnChanges } from '@angular/core';
 import * as _ from 'underscore';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { AuthorizationService } from './authorization.service';
 

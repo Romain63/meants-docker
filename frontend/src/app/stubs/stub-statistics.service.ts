@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AuthHttp } from 'angular2-jwt';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
 
 export const StatsModel = [];
 for (let i = 0; i < 10; i++) {
@@ -15,17 +14,17 @@ for (let i = 0; i < 10; i++) {
 
 @Injectable()
 export class StubStatisticsService {
-    constructor(private http: AuthHttp) { }
+    constructor() { }
 
     getTotalStatistics(parameters?: any) {
-        return Observable.of({ count: StatsModel.length });
+        return of({ count: StatsModel.length });
     }
 
     getStatistics(parameters?: any) {
-        return Observable.of(StatsModel);
+        return of(StatsModel);
     }
 
     getStatisticsByContext(type: String, parameters?: any) {
-        return Observable.of(StatsModel);
+        return of(StatsModel);
     }
 }

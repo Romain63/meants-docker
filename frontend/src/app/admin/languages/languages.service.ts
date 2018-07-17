@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Headers, URLSearchParams } from '@angular/http';
-import { AuthHttp } from 'angular2-jwt';
-import { Observable } from 'rxjs/Observable';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import { ListFilterParams } from '../../shared/models/list-filter-params';
 import { LanguageModel } from './language-model';
 import { ResourceModel } from './resource-model';
 import { CultureModel } from './culture-model';
+import { map } from 'rxjs/operators';
+import { TotalModel } from '../../core/base-list-component';
 
 /**
  * Represents the language list filter.
@@ -24,7 +26,7 @@ export class LanguageFilter extends ListFilterParams {
 @Injectable()
 export class LanguagesService {
   /** POST/PUT headers */
-  private headers = new Headers({ 'Content-Type': 'application/json' });
+  private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
   /** Gets the base api url @property {string} */
   private baseUrl = `${environment.apiUrlBase}api/`;
@@ -34,24 +36,24 @@ export class LanguagesService {
    * @constructor
    * @param {AuthHttp} http The authorized http service.
    */
-  constructor(private http: AuthHttp) { }
+  constructor(private http: HttpClient) { }
 
   /**
    * Gets the language list url params.
    * @method
    * @param {LanguageFilter} parameters The page filter parameters.
-   * @returns {URLSearchParams}
+   * @returns {HttpParams}
    */
   getUrlParams(parameters: LanguageFilter) {
-    const params = new URLSearchParams();
+    let params = new HttpParams();
     if ((parameters.search || '') !== '') {
-      params.set('search', parameters.search);
+      params = params.append('search', parameters.search);
     }
     if ((parameters.sort || '') !== '') {
-      params.set('sort', parameters.sort);
+      params = params.append('sort', parameters.sort);
     }
-    params.set('page', parameters.page.toString());
-    params.set('limit', parameters.limit.toString());
+    params = params.append('page', parameters.page.toString());
+    params = params.append('limit', parameters.limit.toString());
     return params;
   }
 
@@ -61,7 +63,8 @@ export class LanguagesService {
    * @return {Observable<CultureModel[]>}
    */
   cultures() {
-    return this.http.get(`${this.baseUrl}languages/cultures`).map(response => response.json() as CultureModel[]);
+    return this.http.get(`${this.baseUrl}languages/cultures`).pipe(
+      map(response => response as CultureModel[]));
   }
 
   /**
@@ -71,8 +74,13 @@ export class LanguagesService {
    * @return {Observable<LanguageModel[]>}
    */
   all(parameters: LanguageFilter) {
+    console.log(parameters)
     const params = this.getUrlParams(parameters);
-    return this.http.get(`${this.baseUrl}languages`, { search: params }).map(response => response.json() as LanguageModel[]);
+    const headers = new HttpHeaders();
+    console.log(params)
+    return this.http.get(`${this.baseUrl}languages`, { headers: headers, params: params }).pipe(
+      map(response => response as LanguageModel[])
+    );
   }
 
   /**
@@ -81,7 +89,9 @@ export class LanguagesService {
    * @return {Observable<{ count: number }>}
    */
   allCount() {
-    return this.http.get(`${this.baseUrl}languages/count`).map(response => response.json());
+    return this.http.get(`${this.baseUrl}languages/count`).pipe(
+      map(response => response as TotalModel)
+    );
   }
 
   /**
@@ -91,7 +101,9 @@ export class LanguagesService {
    * @returns {Observable<LanguageModel>}
    */
   getById(languageId: string) {
-    return this.http.get(`${this.baseUrl}languages/${languageId}`).map(response => response.json() as LanguageModel);
+    return this.http.get(`${this.baseUrl}languages/${languageId}`).pipe(
+      map(response => response as LanguageModel)
+    );
   }
 
   /**
@@ -102,8 +114,9 @@ export class LanguagesService {
    */
   create(data: LanguageModel) {
     delete data.id;
-    return this.http.post(`${this.baseUrl}languages`, JSON.stringify(data), { headers: this.headers })
-      .map(response => response.json() as LanguageModel);
+    return this.http.post(`${this.baseUrl}languages`, JSON.stringify(data), { headers: this.headers }).pipe(
+      map(response => response as LanguageModel)
+    );
   }
 
   /**
@@ -114,8 +127,9 @@ export class LanguagesService {
    */
   update(data: LanguageModel) {
     const id = data.id;
-    return this.http.put(`${this.baseUrl}languages/${id}`, JSON.stringify(data), { headers: this.headers })
-      .map(response => response.json() as LanguageModel);
+    return this.http.put(`${this.baseUrl}languages/${id}`, JSON.stringify(data), { headers: this.headers }).pipe(
+      map(response => response as LanguageModel)
+    );
   }
 
   /**
@@ -124,8 +138,9 @@ export class LanguagesService {
    * @param {string} id The language identifier to remove.
    */
   remove(id: string) {
-    return this.http.delete(`${this.baseUrl}languages/${id}`, { headers: this.headers })
-      .map(response => response.json());
+    return this.http.delete(`${this.baseUrl}languages/${id}`, { headers: this.headers }).pipe(
+      map(response => response)
+    );
   }
 
   /**
@@ -137,8 +152,10 @@ export class LanguagesService {
    */
   allResources(langId: string, parameters: LanguageFilter) {
     const params = this.getUrlParams(parameters);
-    return this.http.get(`${this.baseUrl}languages/${langId}/resources`, { search: params })
-        .map(response => response.json() as ResourceModel[]);
+    const headers = new HttpHeaders();
+    return this.http.get(`${this.baseUrl}languages/${langId}/resources`, { headers, params }).pipe(
+      map(response => response as ResourceModel[])
+    );
   }
 
   /**
@@ -149,13 +166,14 @@ export class LanguagesService {
    * @return {Observable<{ count: number }>}
    */
   allResourcesCount(langId: string, search: string) {
-    const params = new URLSearchParams();
+    const params = new HttpParams();
     if ((search || '') !== '') {
       params.set('search', search);
     }
-
-    return this.http.get(`${this.baseUrl}languages/${langId}/resources/count`, { search: params })
-      .map(response => response.json() as { count: number });
+    const headers = new HttpHeaders();
+    return this.http.get(`${this.baseUrl}languages/${langId}/resources/count`, { headers, params }).pipe(
+      map(response => response as { count: number })
+    );
   }
 
   /**
@@ -167,8 +185,9 @@ export class LanguagesService {
    */
   createResource(langId: string, data: ResourceModel) {
     delete data.id;
-    return this.http.post(`${this.baseUrl}languages/${langId}/resources`, JSON.stringify(data), { headers: this.headers })
-      .map(response => response.json() as ResourceModel);
+    return this.http.post(`${this.baseUrl}languages/${langId}/resources`, JSON.stringify(data), { headers: this.headers }).pipe(
+      map(response => response as ResourceModel)
+    );
   }
 
   /**
@@ -180,8 +199,9 @@ export class LanguagesService {
    */
   updateResource(langId: string, data: ResourceModel) {
     const id = data.id;
-    return this.http.put(`${this.baseUrl}languages/${langId}/resources/${id}`, JSON.stringify(data), { headers: this.headers })
-      .map(response => response.json() as ResourceModel);
+    return this.http.put(`${this.baseUrl}languages/${langId}/resources/${id}`, JSON.stringify(data), { headers: this.headers }).pipe(
+      map(response => response as ResourceModel)
+    );
   }
 
   /**
@@ -191,7 +211,8 @@ export class LanguagesService {
    * @param {string} id The language identifier to remove.
    */
   removeResource(langId: string, id: string) {
-    return this.http.delete(`${this.baseUrl}languages/${langId}/resources/${id}`, { headers: this.headers })
-      .map(response => response.json());
+    return this.http.delete(`${this.baseUrl}languages/${langId}/resources/${id}`, { headers: this.headers }).pipe(
+      map(response => response)
+    );
   }
 }

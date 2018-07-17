@@ -1,15 +1,18 @@
 import { Injectable, Injector, EventEmitter } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import { tokenNotExpired, JwtHelper, AuthHttp } from 'angular2-jwt';
+import { Observable, of, timer } from 'rxjs';
+import { map, flatMap } from 'rxjs/operators';
 
 import { StorageService } from '../core/storage.service';
 import { environment } from '../../environments/environment';
 import { AuthModel, UserModel, LoginModel } from './models';
 import { userRightsKey } from '../core/base-rights-guard';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { Router } from '@angular/router';
 
 const authKey = 'app.ath';
-const options = { headers: new Headers({ 'Content-Type': 'application/json', 'Accept': 'application/json' }) };
+const options = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Accept': 'application/json' }) };
 
 /**
  * Represents the authorization service.
@@ -17,8 +20,6 @@ const options = { headers: new Headers({ 'Content-Type': 'application/json', 'Ac
  */
 @Injectable()
 export class AuthorizationService {
-  /** The jwt helper @property {JwtHelper} */
-  private jwtHelper: JwtHelper;
 
   /** The rights changed event emitter @property {EventEmitter<void>} */
   private rightsChanged: EventEmitter<void> = new EventEmitter<void>();
@@ -29,21 +30,7 @@ export class AuthorizationService {
   /** Gets the base api url @property {string} */
   private baseUrl = environment.apiUrlBase;
 
-  /** Represents the authorization http service. @property {AuthHttp} */
-  private _authHttp: AuthHttp;
-
-  /**
-   * Gets the authorization http service.
-   * @readonly
-   * @property {AuthHttp}
-   */
-  get authHttp(){
-    if (!this._authHttp){
-      this._authHttp = this.injector.get(AuthHttp);
-    }
-
-    return this._authHttp;
-  }
+  private refreshSubscription: any;
 
   /**
    * Initializes a new instance of the AuthorizationService class.
@@ -53,10 +40,16 @@ export class AuthorizationService {
    */
   constructor(
     private storage: StorageService,
-    private http: Http,
-    private injector: Injector
+    private http: HttpClient,
+    private router: Router
   ) {
-    this.jwtHelper = new JwtHelper();
+    this.refresh().subscribe(result => {
+      if (result === true) {
+        this.scheduleRenewal();
+      } else {
+        this.router.navigate(['']);
+      }
+    });
   }
 
   /**
@@ -109,7 +102,8 @@ export class AuthorizationService {
    * @return {boolean} Value indicating whether user is logged in.
    */
   loggedIn() {
-    const isLoggedIn = tokenNotExpired(null, this.token);
+    const helper = new JwtHelperService();
+    const isLoggedIn = !helper.isTokenExpired(this.token);
     if (!isLoggedIn) {
       this.rights = null;
     }
@@ -124,9 +118,8 @@ export class AuthorizationService {
    * @return {Observable<boolean>} Value indicating whether user is logged.
    */
   login(credentials: LoginModel): Observable<boolean> {
-    return this.http.post(`${this.baseUrl}auth`, JSON.stringify(credentials), options)
-      .map((response: Response) => {
-        const data = response.json();
+    return this.http.post(`${this.baseUrl}auth`, JSON.stringify(credentials), options).pipe(
+      map((data: AuthModel) => {
 
         if (!data || !data.token) {
           return false;
@@ -139,9 +132,10 @@ export class AuthorizationService {
         };
 
         this.rights = data.rights || [];
-
+        this.scheduleRenewal();
         return true;
-      });
+      })
+    );
   }
 
   /**
@@ -151,8 +145,8 @@ export class AuthorizationService {
    * @return {Observable<boolean>} Value indicating whether user is logged.
    */
   register(credentials: LoginModel): Observable<boolean> {
-    return this.http.post(`${this.baseUrl}auth`, JSON.stringify(credentials), options)
-      .map((response: Response) => {
+    return this.http.post(`${this.baseUrl}auth`, JSON.stringify(credentials), options).pipe(
+      map((response: Response) => {
         const data = response.json();
 
         if (!data || !data.token) {
@@ -168,7 +162,7 @@ export class AuthorizationService {
         this.rights = data.rights || [];
 
         return true;
-      });
+      }));
   }
 
   /**
@@ -177,13 +171,15 @@ export class AuthorizationService {
    * @return {Observable<boolean>} Value indicating whether user token is refreshed.
    */
   refresh(): Observable<boolean> {
-    return this.http.post(`${this.baseUrl}token`, JSON.stringify({ 'refresh': this.authInfo.refresh }), options)
-      .map((response: Response) => {
-        const data = response.json();
+    if (!this.authInfo) {
+      this.router.navigate(['']);
+      return of(false);
+    }
+    return this.http.post(`${this.baseUrl}token`, JSON.stringify({ 'refresh': this.authInfo.refresh }), options).pipe(
+      map((data: AuthModel) => {
         if (!data || !data.token) {
           return false;
         }
-
         const authInfo = Object.assign({}, this.authInfo); // { ...this.authInfo };
         authInfo.token = data.token;
         authInfo.username = data.username;
@@ -192,7 +188,7 @@ export class AuthorizationService {
         this.rights = data.rights || [];
 
         return true;
-      });
+      }));
   }
 
   /**
@@ -203,7 +199,7 @@ export class AuthorizationService {
    */
   reinitPassword(username: string): Observable<boolean> {
     console.log('[TODO]: Create reset password API call');
-    return Observable.of(true);
+    return of(true);
   }
 
   /**
@@ -211,16 +207,13 @@ export class AuthorizationService {
    * @method
    */
   logout() {
-    return this.authHttp.post(`${this.baseUrl}token/reject`, JSON.stringify({ 'refresh': this.authInfo.refresh }), options)
-      .map((response: Response) => {
+    return this.http.post(`${this.baseUrl}token/reject`, JSON.stringify({ 'refresh': this.authInfo.refresh }), options).pipe(
+      map((response: Response) => {
         this.storage.setItem(authKey, null);
         this.rights = null;
         return true;
-      });
-
-    // this.storage.setItem(authKey, null);
-    // this.rights = null;
-    // return Observable.of(true);
+      })
+    );
   }
 
   /**
@@ -230,5 +223,43 @@ export class AuthorizationService {
    */
   getRightsChangedEmitter() {
     return this.rightsChanged;
+  }
+
+  public scheduleRenewal() {
+    if (!this.loggedIn()) {
+      return;
+    }
+    this.unscheduleRenewal();
+    const helper = new JwtHelperService();
+    const expiresAt = helper.getTokenExpirationDate(this.authInfo.token).getTime();
+
+    const source = of(expiresAt).pipe(
+      flatMap(
+        expiresAtValue => {
+          const now = Date.now();
+
+          // Use the delay in a timer to
+          // run the refresh at the proper time
+          return timer(Math.max(1, expiresAt - now));
+        })
+    );
+
+    // Once the delay time from above is
+    // reached, get a new JWT and schedule
+    // additional refreshes
+    this.refreshSubscription = source.subscribe(() => {
+      this.refresh().subscribe(result => {
+        if (result === true) {
+          this.scheduleRenewal();
+        }
+      });
+    });
+  }
+
+  public unscheduleRenewal() {
+    if (!this.refreshSubscription) {
+      return;
+    }
+    this.refreshSubscription.unsubscribe();
   }
 }

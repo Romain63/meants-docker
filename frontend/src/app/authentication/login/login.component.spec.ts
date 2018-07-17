@@ -1,11 +1,8 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement, ErrorHandler } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/http';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 
 import { CoreModule } from '../../core/core.module';
@@ -13,7 +10,6 @@ import { LoginComponent } from './login.component';
 import { TESTING_PROVIDERS } from '../../../testing-providers';
 import { StubTokenHelper } from '../../stubs/stub-token-helper';
 import { AuthorizationService } from '../authorization.service';
-import { AppErrorHandler } from './../../core/app-error-handler';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -77,7 +73,7 @@ describe('LoginComponent', () => {
   });
 
   it('should log the user in and redirect to dashboard', () => {
-    const mockHttp = TestBed.get(Http) as Http;
+    const mockHttp = TestBed.get(HttpClient) as HttpClient;
     const mockRouter = TestBed.get(Router) as Router;
 
     mockHttp.post = jasmine.createSpy('post').and.returnValue(Observable.of({

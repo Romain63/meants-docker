@@ -1,20 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { Observable, Subject, BehaviorSubject } from 'rxjs/Rx';
-import { Subscription } from 'rxjs/Subscription';
-import { DataSource } from '@angular/cdk/table';
-import { MatPaginator, MatSort } from '@angular/material';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material';
-
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/catch';
 
 import { LanguagesService } from './languages.service';
 import { LanguageModel } from './language-model';
-import { environment } from '../../../environments/environment';
 import { BaseListComponent } from '../../core/base-list-component';
 import { ListFormParams } from '../../core/list-form-params';
 

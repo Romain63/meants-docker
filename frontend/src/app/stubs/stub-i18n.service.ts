@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-import { AuthHttp } from 'angular2-jwt';
-import { Observable } from 'rxjs/Observable';
+import { HttpClient } from '@angular/common/http';
+import { of } from 'rxjs';
 
 // import { I18nModel } from '../i18n/i18n.model';
 
@@ -11,13 +10,13 @@ export const I18n_MODEL = [
 
 @Injectable()
 export class StubI18nService {
-    constructor(private http: Http, private authHttp: AuthHttp) { }
+    constructor(private http: HttpClient, private authHttp: HttpClient) { }
 
     getKeys(platform: string, term?: string) {
-        return Observable.of(I18n_MODEL);
+        return of(I18n_MODEL);
     }
 
     updateKey(platform: string, model: any) {
-        return Observable.of(model);
+        return of(model);
     }
 }

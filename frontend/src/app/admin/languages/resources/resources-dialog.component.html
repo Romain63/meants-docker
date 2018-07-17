@@ -2,20 +2,20 @@
 <mat-dialog-content>
     <form [formGroup]="editForm" novalidate (submit)="saveResource()">
         <div fxLayout="row" fxLayoutAlign="space-around center">
-            <mat-input-container fxFlex="100">
+            <mat-form-field fxFlex="100">
                 <input matInput placeholder="{{'admin.resources.model.key.placeholder'}}" [formControl]="editForm.controls.key">
                 <mat-error *ngIf="editForm.controls.key.hasError('required')">
                     {{'admin.languages.model.key.required'|translate}}
                 </mat-error>
-            </mat-input-container>
+            </mat-form-field>
         </div>
         <div fxLayout="row" fxLayoutAlign="space-around center">
-            <mat-input-container fxFlex="100">
+            <mat-form-field fxFlex="100">
                 <input matInput placeholder="{{'admin.resources.model.value.placeholder'}}" [formControl]="editForm.controls.value">
                 <mat-error *ngIf="editForm.controls.value.hasError('required')">
                     {{'admin.languages.model.value.required'|translate}}
                 </mat-error>
-            </mat-input-container>
+            </mat-form-field>
         </div>
     </form>
     <button mat-button mat-dialog-close>{{'admin.resources.model.close'|translate}}</button>

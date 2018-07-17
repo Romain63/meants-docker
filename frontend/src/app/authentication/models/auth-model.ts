@@ -12,4 +12,6 @@ export class AuthModel {
 
     /** Gets or sets the refresh token @property {string} */
     refresh: string;
+
+    rights?: string[];
 }

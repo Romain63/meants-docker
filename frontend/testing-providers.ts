@@ -1,6 +1,6 @@
 import { ErrorHandler } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/http';
 import { Http, BaseRequestOptions } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MockBackend } from '@angular/http/testing';
@@ -25,7 +25,7 @@ import { environment } from './environments/environment';
 export const TESTING_IMPORTS = [
   RouterTestingModule,
   CommonModule,
-  HttpModule,
+  HttpClientModule,
   FormsModule,
   ReactiveFormsModule,
   TranslateModule.forRoot(),

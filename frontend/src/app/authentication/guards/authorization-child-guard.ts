@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivateChild, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/toPromise';
+import { Observable } from 'rxjs';
+
 
 import { AuthorizationGuardService } from './authorization-guard.service';
 

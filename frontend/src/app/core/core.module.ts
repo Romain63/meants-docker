@@ -2,12 +2,10 @@ import { NgModule, Optional, SkipSelf, ErrorHandler } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { Http } from '@angular/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 import { TranslateModule, TranslateService, TranslateLoader } from '@ngx-translate/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthHttp } from 'angular2-jwt';
 
 import { environment } from '../../environments/environment';
 import { ModuleImportGuard } from './module-import-guard';
@@ -22,14 +20,14 @@ import { TranslateResolver } from './translate-resolver';
   imports: [
     CommonModule,
     FormsModule,
-    HttpModule,
+    HttpClientModule,
     RouterModule,
     ReactiveFormsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
         useFactory: apiTranslateLoaderFactory,
-        deps: [Http, StorageService]
+        deps: [HttpClient, StorageService]
       }
     }),
     BrowserAnimationsModule,
@@ -42,7 +40,7 @@ import { TranslateResolver } from './translate-resolver';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    HttpModule,
+    HttpClientModule,
     TranslateModule
   ],
   providers: [

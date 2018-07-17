@@ -20,9 +20,9 @@ export class AdminDashboardGuard extends BaseRigthsGuard {
    */
   constructor(
     authorizationGuardService: AuthorizationGuardService,
-    storageService: StorageService, 
+    storageService: StorageService,
     router: Router
-    ) {
+  ) {
     super(authorizationGuardService, storageService, router, 'R_ADM_DASHBOARD');
   }
 }

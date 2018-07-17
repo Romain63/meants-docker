@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AuthHttp } from 'angular2-jwt';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 export const USER_MODEL = {
     username: 'yannick.raffin',
@@ -9,9 +9,9 @@ export const USER_MODEL = {
 
 @Injectable()
 export class StubAccountService {
-    constructor(private http: AuthHttp) { }
+    constructor(private http: HttpClient) { }
 
     getUserInfo() {
-        return Observable.of(USER_MODEL);
+        return of(USER_MODEL);
     }
 }

@@ -44,9 +44,9 @@ export class Logger {
    * @param {any[]} optionalParams Optional logging parameters.
    */
   error(message: string, ...optionalParams: any[]) {
-    console.group('Application ErrorHandler');
-    console.error(message, ...optionalParams);
-    console.groupEnd();
+    // console.group('Application ErrorHandler');
+    // console.error(message, ...optionalParams);
+    // console.groupEnd();
   }
 
   /**

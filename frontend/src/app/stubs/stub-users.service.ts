@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AuthHttp } from 'angular2-jwt';
-import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs';
+import { HttpClient } from '../../../node_modules/@types/selenium-webdriver/http';
 
 export const UsersModel = [];
 for (let i = 0; i < 10; i++) {
@@ -13,9 +13,9 @@ for (let i = 0; i < 10; i++) {
 
 @Injectable()
 export class StubUsersService {
-    constructor(private http: AuthHttp) { }
+    constructor(private http: HttpClient) { }
 
     all(parameters?: any) {
-        return Observable.of(UsersModel);
+        return of(UsersModel);
     }
 }

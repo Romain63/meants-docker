@@ -8,8 +8,8 @@
 @include mat-core();
 
 // Define a theme.
-$primary: mat-palette($mat-light-blue, A700, A100, A400);
-$accent:  mat-palette($mat-deep-orange, A200, A100, A400);
+$primary: mat-palette($mat-deep-purple, 700);
+$accent:  mat-palette($mat-deep-purple, 500);
 
 $theme: mat-light-theme($primary, $accent);
 
@@ -22,7 +22,8 @@ $theme: mat-light-theme($primary, $accent);
 }
 
 mat-toolbar{
-    background-color:#1590bc !important;
+    background-color:mat-color($accent) !important;
+    color : white !important;
 }
 
 mat-ink-bar{

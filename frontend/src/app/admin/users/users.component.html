@@ -7,7 +7,7 @@
       <input matInput #filter placeholder="{{'admin.users.search.placeholder'|translate}}">
     </mat-form-field>
     <div fxFlex></div>
-    <button mat-raised-button color="primary" [routerLink]="['new']" *appHasRight="'R_API_USER_C'">{{'admin.users.new'|translate}}</button>
+    <button mat-raised-button color="primary" [routerLink]="['new']" *appHasRight="'R_API_USER_C'"><mat-icon>add_circle</mat-icon>&emsp;{{'admin.users.new'|translate}}</button>
   </mat-toolbar>
   <div class="form-group no-padding col-mat-12">
   </div>

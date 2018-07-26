@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { SharedModule } from '../shared/shared.module';
 import { AdminLayoutComponent } from './admin-layout/admin-layout.component';
-import { MatSidenavModule } from '@angular/material';
+import { MatSidenavModule, MatMenuModule } from '@angular/material';
 import { MatListModule } from '@angular/material';
 import { MatIconModule } from '@angular/material';
 import { MatToolbarModule } from '@angular/material';
@@ -18,7 +18,8 @@ import { UsersService } from '../admin/users/users.service';
     MatSidenavModule,
     MatListModule,
     MatIconModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatMenuModule
   ],
   declarations: [
     AdminLayoutComponent

@@ -63,7 +63,6 @@ export class EditComponent implements OnInit, OnDestroy {
    * @param {LanguageModel} data The changed language model to save.
    */
   onLanguageSubmitted(data: LanguageModel) {
-    console.log('language saved:', data);
     this.service.update(data).subscribe((response) => {
       this.language = response;
       this.router.navigate(['../'], { relativeTo: this.route });

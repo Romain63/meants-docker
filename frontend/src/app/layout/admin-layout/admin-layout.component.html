@@ -1,10 +1,16 @@
 <div fxLayout="column" id="main-container">
     <!-- Toolbar -->
     <mat-toolbar color="primary" class="app-toolbar">
-        <button mat-button class="mat-icon-button" aria-label="Settings" ng-disabled="true" (click)="sidenav.toggle()">
-        <mat-icon>menu</mat-icon>
-    </button>
-        <h2 flex mat-truncate [routerLink]="['/admin']">MeanTS</h2>
+        <div fxLayout="row" class="full-width" fxLayoutAlign="space-between center">
+            <button fxFlex="nogrow" mat-button class="mat-icon-button" (click)="sidenav.toggle()">
+                <mat-icon>menu</mat-icon>
+            </button>
+            <h2 fxFlex="nogrow" [routerLink]="['/admin']">MeanTS</h2>
+            <div class="flex-spacer"></div>
+            <button fxFlex="nogrow" mat-button class="mat-icon-button" [mat-menu-trigger-for]="menu">
+                <mat-icon>settings</mat-icon>
+            </button>
+        </div>
     </mat-toolbar>
     <!-- / Toolbar -->
 
@@ -14,34 +20,25 @@
         <mat-sidenav mode="side" opened="true" #sidenav class="example-sidenav">
             <!-- Top bloc -->
             <div class="user-info" fxLayout="column" fxLayoutAlign="center center">
-                <div>
+                <div fxFlex="nogrow">
                     <img src="/assets/img/avatar.png" class="img-avatar" alt="admin@bootstrapmaster.com" />
-                    <div class="user-info-content" fxLayout="row" fxLayoutAlign="start center">
-                        <div fxFlex> {{username}} </div>
-                        <!-- <button mat-icon-button [menuTriggerFor]="menu"><mat-icon>arrow_drop_down</mat-icon></button> -->
-                    </div>
+                </div>
+                <div fxFlex="nogrow" fxFlexOffset="5" class="user-info-content" >
+                    {{username}}
                 </div>
             </div>
             <!-- / Top bloc -->
             <!-- User parameters menu -->
-            <!-- <mat-menu #menu="matMenu">
+            <mat-menu #menu="matMenu">
                 <button mat-menu-item [routerLink]="['/admin/users/', userModel.id, 'update']">
                     <mat-icon>perm_identity</mat-icon>
                     <span>Modifier le profil</span>
-                </button>
-                <button mat-menu-item [routerLink]="['/admin/users/', userModel.id, 'password']">
-                    <mat-icon>lock</mat-icon>
-                    <span>Modifier le matp</span>
-                </button>
-                <button mat-menu-item>
-                    <mat-icon>build</mat-icon>
-                    <span>Paramètres</span>
                 </button>
                 <button mat-menu-item class="logout-button" [routerLink]="['/logout']" routerLinkActive="active">
                     <mat-icon>exit_to_app</mat-icon>
                     <span>Logout</span>
                 </button>
-            </mat-menu> -->
+            </mat-menu>
             <!-- / User parameters menu -->
 
             <!-- Menu -->

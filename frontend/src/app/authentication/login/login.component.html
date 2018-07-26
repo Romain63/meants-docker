@@ -1,27 +1,27 @@
-<div class="full-height" fxLayout="column">
-  <div fxFlex></div>
-  <div fxLayout="column" fxLayoutAlign="start center">
-    <mat-card class="login-card">
-      <form class="form-signin" [formGroup]="loginForm" role="form" novalidate (submit)="login($event)">
+<div class="full-height" fxLayout="row" fxLayoutAlign="center center">
+  <mat-card>
+    <form [formGroup]="loginForm" role="form" novalidate (submit)="login($event)">
+      <mat-card-content>
         <div fxLayout="column">
-          <mat-form-field class="login-margin" fxFlex>
-            <input matInput placeholder="{{'login.email'|translate}}" [formControl]="loginForm.controls.email" >
+          <mat-form-field fxFlex>
+            <input matInput placeholder="{{'login.email'|translate}}" [formControl]="loginForm.controls.email">
             <mat-error *ngIf="loginForm.controls.email.hasError('required')">
             </mat-error>
             <mat-icon matSuffix>mail_outline</mat-icon>
           </mat-form-field>
-          <mat-form-field class="login-margin" fxFlex>
-            <input matInput type="password" placeholder="{{'login.password'|translate}}" [formControl]="loginForm.controls.password" >
+          <mat-form-field fxFlex>
+            <input matInput type="password" placeholder="{{'login.password'|translate}}" [formControl]="loginForm.controls.password">
             <mat-error *ngIf="loginForm.controls.password.hasError('required')">
             </mat-error>
             <mat-icon matSuffix>lock_outline</mat-icon>
           </mat-form-field>
-          <div fxLayoutAlign="end start">
-            <button class="login-button" color="primary" type="submit" mat-raised-button>{{'login.button.label'|translate}}</button>
-          </div>
         </div>
-      </form>
-    </mat-card>
-  </div>
-  <div fxFlex></div>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-button type="button" [routerLink]="['/forgotpassword']">{{'forgotted.password.button.label'|translate}}</button>
+        <button mat-raised-button type="submit" color="primary">{{'login.button.label'|translate}}</button>
+      </mat-card-actions>
+    </form>
+  </mat-card>
 </div>

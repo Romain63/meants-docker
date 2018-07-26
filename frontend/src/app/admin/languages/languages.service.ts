@@ -74,10 +74,8 @@ export class LanguagesService {
    * @return {Observable<LanguageModel[]>}
    */
   all(parameters: LanguageFilter) {
-    console.log(parameters)
     const params = this.getUrlParams(parameters);
     const headers = new HttpHeaders();
-    console.log(params)
     return this.http.get(`${this.baseUrl}languages`, { headers: headers, params: params }).pipe(
       map(response => response as LanguageModel[])
     );

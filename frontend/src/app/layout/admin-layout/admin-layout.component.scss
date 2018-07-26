@@ -58,7 +58,6 @@ mat-nav-list.menu{
   background-size: 100% 100%;
   margin-bottom: 20px;
   .user-info-content{
-    padding-left: 20px;
     color: white;
   }
   .img-avatar {
@@ -67,3 +66,10 @@ mat-nav-list.menu{
   }
 }
 
+.full-width {
+  width: 100%;
+}
+
+.flex-spacer {
+  flex-grow: 1;
+}
